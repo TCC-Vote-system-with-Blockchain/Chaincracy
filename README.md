@@ -1,13 +1,13 @@
 # ⛓ Chaincracy ⛓
 > 🇧🇷 Para a versão em Português, clique [aqui](README-pt.md). 🇧🇷
 ## Summary 
- * [Description](#description-📝)
- * [Tools](#tools-🛠)
- * [Usage](#usage-💻)
+ * [Description](#description-)
+ * [Tools](#tools-)
+ * [Usage](#usage-)
    * [yarn install](#yarn-install)
    * [yarn start](#yarn-start)
    * [yarn build](#yarn-build)
- * [Developers](#developers-👨🏽‍💻)
+ * [Developers](#developers-)
 ## Description 📝
 This repository contains my academic project, the final assignment for my course (Trabalho de Conclusão de Curso or Final Course Project). The project, named Chaincracy, revolves around the implementation of a voting system utilizing Blockchain technology. This system is set to be deployed on the Polygon network. With that approach, the goal of this project is enabling the introduction of an alternative voting system that prioritizes enhanced transparency and security.
 
