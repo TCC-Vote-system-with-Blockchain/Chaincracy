@@ -1,7 +1,7 @@
 # ⛓ Chaincracy ⛓
 > 🇺🇸 For the English version, click [here](README.md). 🇺🇸
 
-## Summary 
+## Sumário 
  * [Descrição](#descrição-)
  * [Tecnologias](#tecnologias-)
  * [Usage](#usage-)
@@ -23,7 +23,7 @@ As seguintes ferramentas foram usadas na construção do projeto:
 - [Polygon](https://polygon.technology/)
 - [Metamask](https://metamask.io/)
 
-## Usage 💻
+## Rodando o Frontend: 💻
 > <span style="color:yellow">**⚠ ALERTA:**</span>
 > Certifique-se de instalar o Yarn primeiro.
 
