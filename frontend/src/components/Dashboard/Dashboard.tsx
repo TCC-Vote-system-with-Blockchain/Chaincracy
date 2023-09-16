@@ -67,8 +67,8 @@ export const Dashboard: React.FC<Props> = ({ status }) => {
 
             <ElectionInfoBoxArea>
                 <ElectionInfosBox>
-                    {infoBoxContent.map(content => (
-                        <InfoBox content={content} />
+                    {infoBoxContent.map((content, index) => (
+                        <InfoBox content={content} key={index} />
                     ))}
                 </ElectionInfosBox>
             </ElectionInfoBoxArea>
