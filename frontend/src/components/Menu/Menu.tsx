@@ -36,13 +36,11 @@ export const Menu: React.FC = () => {
             <WalletInfoBox>
                 <AccountBalanceWalletOutlinedIcon style={{ fontSize: '3.5vw', color: '#FFFF' }} />
                 <WalletTextBox>
-                    <TextField textWeightStyle="bold"
-                        fontSize="1vw"
+                    <TextField style={{ fontWeight: 'bold', fontSize: '1vw' }}
                         text="Carteira:"
                     />
-                    <TextField title="0x766e503e0891b5b19B98C507ADe6A789884b72fd"
-                        fontSize="1vw"
-                        ellipsis="ellipsis"
+                    <TextField style={{ fontSize: '1vw', textOverflow: 'ellipsis', overflow: 'hidden' }}
+                        title="0x766e503e0891b5b19B98C507ADe6A789884b72fd"
                         text="0x766e503e0891b5b19B98C507ADe6A789884b72fd"
                     />
                 </WalletTextBox>

@@ -1,25 +1,15 @@
+import { CSSProperties } from 'react';
 import { Text, TextBox } from './styles';
 
 interface Props {
     onClick?: () => void;
     text: string;
-    textWeightStyle?: string;
-    title?: string;
-    ellipsis?: string;
-    fontSize?: string;
-    cursor?: string;
+    title?: string
+    style?: CSSProperties;
 }
 
-export const TextField: React.FC<Props> = ({ onClick, text, textWeightStyle, title, ellipsis, fontSize, cursor }: Props) => {
+export const TextField: React.FC<Props> = ({ onClick, text, title, style }: Props) => {
     return (
-        <Text onClick={onClick}
-            $textWeight={textWeightStyle}
-            $ellipsis={ellipsis}
-            $fontSize={fontSize}
-            $cursor={cursor}
-            title={title}>
-
-            {text}
-        </Text>
+        <Text onClick={onClick} style={style} title={title}>{text}</Text>
     );
 }

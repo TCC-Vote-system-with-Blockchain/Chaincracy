@@ -16,7 +16,7 @@ interface Props {
 export const ButtonDropdown: React.FC<Props> = ({ text, icon: IconComponent, dropdown, path }) => {
     const [isOpen, setIsOpen] = useState(false);
 
-    const onHandlerClick = () => {
+    const onHandlerClick: any = () => {
         if (dropdown) {
             setIsOpen(!isOpen);
         }
@@ -44,18 +44,19 @@ export const ButtonDropdown: React.FC<Props> = ({ text, icon: IconComponent, dro
                         }}
                         />)
                     }
-                    <TextField text={text} textWeightStyle='bold' fontSize='1.5vw' ellipsis="ellipsis" />
+                    <TextField text={text} style={{ fontSize: '1.5vw', textOverflow: 'ellipsis', fontWeight: 'bold' }} />
                 </IconTextBox>
-
                 {
                     //Render dropdown icon only if it has content.
                     dropdown && <DropdownArrowsBox>
                         {isOpen && <KeyboardArrowUpIcon style={{
-                            marginRight: '10px'
+                            marginRight: '10px',
+                            fontSize: '1.8vw'
                         }} />}
 
                         {!isOpen && <KeyboardArrowDownIcon style={{
-                            marginRight: '10px'
+                            marginRight: '10px',
+                            fontSize: '1.8vw'
                         }} />}
                     </DropdownArrowsBox>
                 }
@@ -66,8 +67,7 @@ export const ButtonDropdown: React.FC<Props> = ({ text, icon: IconComponent, dro
                     {isOpen && dropdown.map((item) => (
                         <TextField text={item.text}
                             onClick={() => { window.location.href = item.path }}
-                            cursor='pointer'
-                            fontSize='1.3vw'
+                            style={{ cursor: 'pointer', fontSize: '1.3vw' }}
                         />
                     ))}
                 </DropdownListBox>
