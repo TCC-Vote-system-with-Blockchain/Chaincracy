@@ -4,7 +4,7 @@
 ## Sumário 
  * [Descrição](#descrição-)
  * [Tecnologias](#tecnologias-)
- * [Usage](#usage-)
+ * [Rodando o Frontend](#rodando-o-frontend-)
    * [yarn install](#yarn-install)
    * [yarn start](#yarn-start)
    * [yarn build](#yarn-build)
