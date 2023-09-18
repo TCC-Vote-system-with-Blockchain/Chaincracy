@@ -1,10 +1,10 @@
 # ⛓ Chaincracy ⛓
 > 🇺🇸 For the English version, click [here](README.md). 🇺🇸
 
-## Summary 
+## Sumário 
  * [Descrição](#descrição-)
  * [Tecnologias](#tecnologias-)
- * [Usage](#usage-)
+ * [Rodando o Frontend](#rodando-o-frontend-)
    * [yarn install](#yarn-install)
    * [yarn start](#yarn-start)
    * [yarn build](#yarn-build)
@@ -23,7 +23,7 @@ As seguintes ferramentas foram usadas na construção do projeto:
 - [Polygon](https://polygon.technology/)
 - [Metamask](https://metamask.io/)
 
-## Usage 💻
+## Rodando o Frontend: 💻
 > <span style="color:yellow">**⚠ ALERTA:**</span>
 > Certifique-se de instalar o Yarn primeiro.
 
