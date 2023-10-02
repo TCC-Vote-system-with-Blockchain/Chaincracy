@@ -47,7 +47,8 @@ export const Dashboard: React.FC<{ status: IStatus }> = ({ status }) => {
 
     return (
         <DashboardContainer>
-            <Header />
+
+            <Header canDesconnect={true} headerTitle='' canBackwards={false} headerStyles={{ marginBottom: '2%' }} />
             <TextField text='HOMEPAGE' style={{
                 fontSize: '2vw',
                 fontWeight: 'bolder',
@@ -83,6 +84,7 @@ export const Dashboard: React.FC<{ status: IStatus }> = ({ status }) => {
 
                 </ElectionStatusBox>
             </ElectionStatusContainer>
+
         </DashboardContainer>
     );
 }
