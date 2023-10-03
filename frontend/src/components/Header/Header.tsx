@@ -21,7 +21,7 @@ export const Header: React.FC<Props> = ({ canDesconnect, headerTitle, canBackwar
                     text='Voltar'
                     buttonStyles={{ width: '30%', height: '50%', backgroundColor: '#FFFF', marginLeft: '10%' }}
                     fontStyles={{ fontSize: '1.2vw', color: '#222831' }}
-                    onClick={() => window.history.back()} />}
+                    onClick={() => window.history.length > 0 ? window.history.back() : window.location.href = '/'} />}
             </BackButtonBox>
 
             <HeaderTitleBox>
