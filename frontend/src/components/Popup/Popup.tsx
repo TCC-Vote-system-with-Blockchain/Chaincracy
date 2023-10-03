@@ -13,6 +13,12 @@ interface Props {
 }
 
 export const Popup: React.FC<Props> = ({ icon: IconComponent, text, hasButton, isOpen, onConfirm, onCancel }) => {
+    const iconStyles = {
+        color: '#222831',
+        fontWeight: 'bolder',
+        fontSize: '8vw',
+        margin: '3%'
+    }
 
     return (
         <PopupContainer style={{ display: isOpen ? 'block' : 'none' }}>
@@ -20,12 +26,9 @@ export const Popup: React.FC<Props> = ({ icon: IconComponent, text, hasButton, i
             <PopupBox>
                 <PopupComponents>
                     <PopupIcon>
-                        {IconComponent ? <IconComponent /> : <WarningAmberOutlinedIcon style={{
-                            color: '#222831',
-                            fontWeight: 'bolder',
-                            fontSize: '8vw',
-                            margin: '3%'
-                        }} />}
+                        {IconComponent ? <IconComponent style={{ ...iconStyles }} /> :
+                            <WarningAmberOutlinedIcon style={{ ...iconStyles }}
+                            />}
                     </PopupIcon>
 
                     <PopupText>

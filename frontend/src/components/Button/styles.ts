@@ -11,8 +11,9 @@ export const ButtonBox = styled.button<{ $disable?: boolean }>`
     outline: inherit;
     border: none;
     box-shadow: 2px 3px 6px rgba(0, 0, 0, 0.8);
-    &:active {
-        transform: scale(0.9);
+
+    &:not(:disabled):active {
+    transform: scale(0.9);
     }
 `;
 

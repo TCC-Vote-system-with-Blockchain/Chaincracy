@@ -19,25 +19,18 @@ import {
 } from "./styles";
 import { Footer } from "../../components/Footer";
 import { Popup } from "../../components/Popup";
+import HowToRegOutlinedIcon from '@mui/icons-material/HowToRegOutlined';
+import { candidatesMock } from "../../utils/candidatesMock";
 
 export const VotePage: React.FC = () => {
     const [isPopupOpen, setIsPopupOpen] = useState({ isOpen: false, message: '' });
     const [input, setInput] = useState('');
+    const [voted, setVoted] = useState(false);
 
-    const handleChangeInput = (value: string) => {
-        if (value.length === 6) setInput(value);
-        else setInput('');
-    }
-
-    const handleOnChange = (value: any, onlyNumbers: boolean) => {
+    let candidate = candidatesMock(Number(input));
+    const handleOnChange = (value: any) => {
         if (value.length === 6) {
-            if (onlyNumbers) {
-                const numbers = value.replace(/[^\d.-]/g, '');
-                setInput(numbers);
-            }
-            else {
-                setInput(value);
-            }
+            setInput(value);
         }
         else setInput('');
     }
@@ -50,11 +43,23 @@ export const VotePage: React.FC = () => {
     const handleConfirm = () => {
         if (isPopupOpen.message === 'confirma') {
             console.log(`Voto computado! Número do candidato: ${input}`);
+            handleVoteConfirmed();
         }
         else {
             console.log('Voto em BRANCO computado!');
+            handleVoteConfirmed();
         }
         setIsPopupOpen({ isOpen: false, message: '' });
+    }
+
+    const handleVoteConfirmed = () => {
+        setTimeout(() => {
+            setVoted(false);
+        }, 2000)
+        setVoted(true);
+        setTimeout(() => {
+            window.location.href = '/'
+        }, 2000)
     }
 
     return (
@@ -64,6 +69,14 @@ export const VotePage: React.FC = () => {
                 onCancel={handleOnClosePopup}
                 hasButton={true}
                 isOpen={isPopupOpen.isOpen}
+            />
+
+            <Popup text='Voto computado!'
+                icon={HowToRegOutlinedIcon}
+                onConfirm={handleConfirm}
+                onCancel={handleOnClosePopup}
+                hasButton={false}
+                isOpen={voted}
             />
 
             <Header canDesconnect={false}
@@ -77,7 +90,7 @@ export const VotePage: React.FC = () => {
                     <TextField text='Digite o número do candidato:' style={{ fontSize: '2.3vw' }} />
                     <InputFieldContainer>
                         <Input maxLength={6}
-                            onChange={({ target }: any) => handleOnChange(target.value, true)}
+                            onChange={({ target }: any) => handleOnChange(target.value)}
                         />
                     </InputFieldContainer>
 
@@ -99,16 +112,16 @@ export const VotePage: React.FC = () => {
                 <CandidateScreenContainer>
                     <CandidateInfoBox>
                         <CandidatePictureBox>
-                            <CandidatePicture src='../../../public/assets/picture1.jpg' />
+                            <CandidatePicture src={candidate?.picture} />
                         </CandidatePictureBox>
 
                         <CandidateElectionInfoBox>
                             <CandidateName>
-                                <TextField text='João Wudarski' style={{ fontSize: '2.5vw', color: '#222831' }} />
+                                <TextField text={candidate?.name} style={{ fontSize: '2.5vw', color: '#222831' }} />
                             </CandidateName>
 
                             <CandidateNumber>
-                                <TextField text={`${input}`} style={{ fontSize: '4vw', fontWeight: 'bolder', color: '#222831' }} />
+                                <TextField text={`${candidate?.number}`} style={{ fontSize: '4vw', fontWeight: 'bolder', color: '#222831' }} />
                             </CandidateNumber>
                         </CandidateElectionInfoBox>
                     </CandidateInfoBox>
