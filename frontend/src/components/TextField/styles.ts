@@ -5,8 +5,8 @@ export const TextBox = styled.div`
     overflow: hidden; 
 `;
 
-export const Text = styled.span`
+export const Text = styled.span<{ $fontColor?: string }>`
     font-family: 'Roboto', sans-serif;
     letter-spacing: 1.8px;
-    color: #FFFF;
+    color: ${props => props.$fontColor ? props.$fontColor : '#FFFF'};
 `;

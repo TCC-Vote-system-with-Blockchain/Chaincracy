@@ -16,26 +16,16 @@ import HowToVoteOutlinedIcon from '@mui/icons-material/HowToVoteOutlined';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import TaskOutlinedIcon from '@mui/icons-material/TaskOutlined';
 import GppMaybeOutlinedIcon from '@mui/icons-material/GppMaybeOutlined';
-// import { IStatus } from "./model/models";
+import { IStatus, IStatusColor } from "./model/models";
 
-interface Props {
-    status: string
-}
+export const Dashboard: React.FC<{ status: IStatus }> = ({ status }) => {
 
-export const Dashboard: React.FC<Props> = ({ status }) => {
+    const statusColors: IStatusColor = {
+        [IStatus.NAO_INICIADA]: '#494F57',
+        [IStatus.EM_ANDAMENTO]: '#B4A310',
+        [IStatus.FINALIZADA]: '#27B410',
+    };
 
-    const handlerStatusBoxColor: any = () => {
-
-        if (status === 'NÃO INICIADA') {
-            return '#494F57';
-        }
-        else if (status === 'EM ANDAMENTO') {
-            return '#B4A310';
-        }
-        else {
-            return '#27B410';
-        }
-    }
     const infoBoxContent: IInfoBox[] = [
         {
             icon: HowToVoteOutlinedIcon,
@@ -57,7 +47,8 @@ export const Dashboard: React.FC<Props> = ({ status }) => {
 
     return (
         <DashboardContainer>
-            <Header />
+
+            <Header canDesconnect={true} headerTitle='' canBackwards={false} headerStyles={{ marginBottom: '2%' }} />
             <TextField text='HOMEPAGE' style={{
                 fontSize: '2vw',
                 fontWeight: 'bolder',
@@ -76,7 +67,7 @@ export const Dashboard: React.FC<Props> = ({ status }) => {
             <Separator style={{ marginTop: '4%' }} />
 
             <ElectionStatusContainer>
-                <ElectionStatusBox $boxColor={handlerStatusBoxColor}>
+                <ElectionStatusBox $boxColor={statusColors[status]}>
                     <ElectionStatusTitleBox>
                         <TextField text="Status da Eleição:" style={{
                             fontSize: '2vw',
@@ -93,6 +84,7 @@ export const Dashboard: React.FC<Props> = ({ status }) => {
 
                 </ElectionStatusBox>
             </ElectionStatusContainer>
+
         </DashboardContainer>
     );
 }
