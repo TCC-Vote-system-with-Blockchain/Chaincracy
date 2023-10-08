@@ -8,14 +8,11 @@ console.log(polygonAPIKey);
 const config: HardhatUserConfig = {
   defaultNetwork: "hardhat",
   networks: {
+    localhost: {
+      url: "http://127.0.0.1:8545"
+    },
     hardhat: {
     },
-    ...polygonMainnetPrivateKey && polygonAPIKey && {
-      mainnet: {
-        url: process.env.POLYGON_MAINNET_URL,
-        accounts: [polygonMainnetPrivateKey]
-      }
-    }
   },
   paths: {
     artifacts: './artifacts',
