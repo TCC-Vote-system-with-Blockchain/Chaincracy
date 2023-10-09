@@ -24,11 +24,11 @@ export const HeaderTitleBox = styled.div`
 `;
 
 export const ExitAppBox = styled.div`
+    cursor: pointer;
     display: flex;
     justify-content: flex-end;
     width: 20%;
     height: 100%;
-    cursor: pointer;
     display: flex;
     align-items: center;
     user-select: none;

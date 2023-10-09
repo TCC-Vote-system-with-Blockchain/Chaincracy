@@ -20,14 +20,14 @@ import {
 import { Footer } from "../../components/Footer";
 import { Popup } from "../../components/Popup";
 import HowToRegOutlinedIcon from '@mui/icons-material/HowToRegOutlined';
-import { candidatesMock } from "../../utils/candidatesMock";
+import { getCandidate } from "../../utils/candidatesQuery";
 
 export const VotePage: React.FC = () => {
     const [isPopupOpen, setIsPopupOpen] = useState({ isOpen: false, message: '' });
     const [input, setInput] = useState('');
     const [voted, setVoted] = useState(false);
 
-    let candidate = candidatesMock(Number(input));
+    let candidate = getCandidate(Number(input));
     const handleOnChange = (value: any) => {
         if (value.length === 6) {
             setInput(value);
@@ -80,7 +80,7 @@ export const VotePage: React.FC = () => {
             />
 
             <Header canDesconnect={false}
-                headerTitle='Votação - <strong> DEPUTADO ESTADUAL </strong>'
+                headerTitle={`Votação - <strong> DEPUTADO ESTADUAL </strong>`}
                 headerTitleSize='2.5vw'
                 canBackwards={true}
             />
