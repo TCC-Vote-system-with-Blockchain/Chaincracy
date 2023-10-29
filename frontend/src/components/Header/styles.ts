@@ -23,14 +23,32 @@ export const HeaderTitleBox = styled.div`
     height: 100%;
 `;
 
-export const ExitAppBox = styled.div`
+export const LoginButtonBox = styled.div`
+    cursor: pointer;
     display: flex;
     justify-content: flex-end;
     width: 20%;
     height: 100%;
-    cursor: pointer;
     display: flex;
     align-items: center;
     user-select: none;
     color: #FFFF;
+    &active {
+    transform: scale(0.9);
+    }
+`;
+
+export const LogoutButtonBox = styled.div`
+    cursor: pointer;
+    display: flex;
+    justify-content: flex-end;
+    width: 20%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    user-select: none;
+    color: #FFFF;
+    &active {
+    transform: scale(0.9);
+    }
 `;

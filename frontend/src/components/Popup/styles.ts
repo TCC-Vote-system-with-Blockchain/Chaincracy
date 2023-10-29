@@ -49,6 +49,7 @@ export const PopupText = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
+    text-align: center;
     width: 92%;
     height: 33%;
     color: #222831;

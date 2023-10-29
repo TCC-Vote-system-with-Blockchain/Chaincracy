@@ -64,8 +64,10 @@ export const ButtonDropdown: React.FC<Props> = ({ text, icon: IconComponent, dro
             </ButtonDropdownBox>
             {
                 dropdown && <DropdownListBox style={{ height: isOpen ? '35vh' : '0vh' }}>
-                    {isOpen && dropdown.map((item) => (
-                        <TextField text={item.text}
+                    {isOpen && dropdown.map((item, index) => (
+                        <TextField
+                            key={index}
+                            text={item.text}
                             onClick={() => { window.location.href = item.path }}
                             style={{ cursor: 'pointer', fontSize: '1.3vw' }}
                         />

@@ -8,7 +8,7 @@ interface Props {
     text: string;
     hasButton: boolean;
     isOpen: boolean;
-    onConfirm: () => void;
+    onConfirm?: () => void;
     onCancel: () => void;
 }
 
