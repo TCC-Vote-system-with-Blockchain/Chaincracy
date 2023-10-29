@@ -90,6 +90,15 @@ contract Chaincracy{
     function getNomeCandidato(uint256 _candidatoId) public view returns (string memory) {
         return candidatos[_candidatoId].nomeCandidato;
     }
+    
+    function getInformacaoCandidato(uint256 _numero) public view returns (Candidato memory) {
+        for (uint256 i = 0; i < candidatos.length; i++) {
+            if (candidatos[i].numero == _numero) {
+                return candidatos[i];
+            }
+        }
+        revert("Candidato nao encontrado"); 
+    }
 
     function votar(uint256 _numero, uint256 _cargoId) public votacaoAberta {
         require(!hasCalled[msg.sender][_cargoId], "Voto ja registrado por essa carteira neste cargo!");

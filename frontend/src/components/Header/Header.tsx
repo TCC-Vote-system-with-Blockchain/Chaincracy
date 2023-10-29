@@ -1,19 +1,40 @@
-import { CSSProperties } from "react";
+import { CSSProperties, useEffect, useState } from "react";
 import { Button } from "../Button";
 import { TextField } from "../TextField";
-import { HeaderContainer, ExitAppBox, BackButtonBox, HeaderTitleBox } from "./styles";
+import {
+    HeaderContainer,
+    LoginButtonBox,
+    BackButtonBox,
+    HeaderTitleBox
+} from "./styles";
 import ArrowBackIosOutlinedIcon from '@mui/icons-material/ArrowBackIosOutlined';
-import ExitToAppIcon from '@mui/icons-material/ExitToApp';
+import LoginOutlinedIcon from '@mui/icons-material/LoginOutlined';
+import { checkIfWalletIsConnected, connectWallet } from "../../utils/web3/services/web3-service";
 
 interface Props {
     headerTitle?: string;
     headerTitleSize?: string;
-    canDesconnect: boolean;
+    login: boolean;
     canBackwards: boolean;
     headerStyles?: CSSProperties;
 }
 
-export const Header: React.FC<Props> = ({ canDesconnect, headerTitle, canBackwards, headerTitleSize, headerStyles }) => {
+export const Header: React.FC<Props> = ({ login, headerTitle, canBackwards, headerTitleSize, headerStyles }) => {
+    const [hasAccountConnected, setHasAccountConnected] = useState(false);
+
+    const handleLoginButton = async () => {
+        await connectWallet();
+        window.location.reload();
+    }
+
+    const handleConnectedWallets = async () => {
+        setHasAccountConnected(await checkIfWalletIsConnected() ? true : false);
+    }
+
+    useEffect(() => {
+        handleConnectedWallets();
+    });
+
     return (
         <HeaderContainer style={headerStyles}>
             <BackButtonBox>
@@ -28,18 +49,19 @@ export const Header: React.FC<Props> = ({ canDesconnect, headerTitle, canBackwar
                 <TextField text={headerTitle} style={{ fontSize: `${headerTitleSize}` }} />
             </HeaderTitleBox>
 
-            <ExitAppBox>
-                {canDesconnect && <>
-                    <ExitToAppIcon style={{ fontSize: '1.8vw' }} />
-                    <TextField text='Desconectar' style={{
+            {
+                login && !hasAccountConnected &&
+                <LoginButtonBox onClick={() => handleLoginButton()}>
+                    <LoginOutlinedIcon style={{ fontSize: '1.8vw' }} />
+                    <TextField text='Conectar' style={{
                         cursor: 'pointer',
                         marginLeft: '8%',
                         marginRight: '11%',
                         fontSize: '1.2vw',
                         fontWeight: 'bold'
                     }} />
-                </>}
-            </ExitAppBox>
-        </HeaderContainer>
+                </LoginButtonBox>
+            }
+        </HeaderContainer >
     );
 }

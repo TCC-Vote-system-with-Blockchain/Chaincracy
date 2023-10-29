@@ -1,7 +1,10 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "../../components/Button";
 import { Header } from "../../components/Header";
 import { TextField } from "../../components/TextField";
+import { Footer } from "../../components/Footer";
+import { Popup } from "../../components/Popup";
+import { getCandidate } from "../../utils/candidatesQuery";
 import {
     VotePageContainer,
     VoteFieldContainer,
@@ -17,20 +20,48 @@ import {
     InputFieldContainer,
     Input
 } from "./styles";
-import { Footer } from "../../components/Footer";
-import { Popup } from "../../components/Popup";
+import Web3 from "web3";
+import { AbiItem } from 'web3-utils';
+import { getCurrentAccount } from "../../utils/web3/services/web3-service";
+import { ChaincracyAbi, ChaincracyAddress } from "../../utils/web3/contracts";
 import HowToRegOutlinedIcon from '@mui/icons-material/HowToRegOutlined';
-import { getCandidate } from "../../utils/candidatesQuery";
+import { vote } from "../../utils/web3/services/chaincracy-service";
 
 export const VotePage: React.FC = () => {
     const [isPopupOpen, setIsPopupOpen] = useState({ isOpen: false, message: '' });
     const [input, setInput] = useState('');
-    const [voted, setVoted] = useState(false);
+    const [voted, setVoted] = useState<IVote>({ alreadyVoted: false, voted: false });
+    const [candidate, setCandidate] = useState<ICandidato>();
 
-    let candidate = getCandidate(Number(input));
+    const web3 = new Web3('http://127.0.0.1:8545');
+    const contractAddress = ChaincracyAddress;
+    const chaincracy = new web3.eth.Contract(ChaincracyAbi as AbiItem[], contractAddress,);
+
+    const tentando = async () => {
+        const account = await getCurrentAccount();
+        await chaincracy.methods.adicionarCargo('Presidente').send({ from: account });
+        await chaincracy.methods.adicionarCandidato(0, 17, 'Bolsonaro', 'qualquer_coisa').send({ from: account });
+        await chaincracy.methods.adicionarCandidato(0, 10, 'Marina Silva', 'qualquer_coisa').send({ from: account });
+        await chaincracy.methods.adicionarCandidato(0, 11, 'Boulos', 'qualquer_coisa').send({ from: account });
+        await chaincracy.methods.adicionarCandidato(0, 12, 'Ciro', 'qualquer_coisa').send({ from: account });
+
+        const naosei = await chaincracy.methods.getNomeCandidato(0).call();
+        console.log(naosei);
+    }
+
+    // tentando();
+
+    const getCandidateInputed = async (input: string) => {
+        let candidate: ICandidato = await getCandidate(Number(input));
+        console.log(candidate);
+        setCandidate(candidate);
+    }
+
+
     const handleOnChange = (value: any) => {
-        if (value.length === 6) {
+        if (value.length === 2) {
             setInput(value);
+            getCandidateInputed(value);
         }
         else setInput('');
     }
@@ -40,27 +71,39 @@ export const VotePage: React.FC = () => {
         console.log(`Voto não computado`);
     }
 
-    const handleConfirm = () => {
+    const handleConfirm = async () => {
         if (isPopupOpen.message === 'confirma') {
-            console.log(`Voto computado! Número do candidato: ${input}`);
-            handleVoteConfirmed();
+            let voteStatus: IVote = await vote(Number(input), 0);
+
+            if (!voteStatus.alreadyVoted) {
+                console.log(`Voto computado! Número do candidato: ${input}`);
+                handleVoteConfirmed(false);
+            }
+            else {
+                handleVoteConfirmed(true);
+            }
         }
         else {
             console.log('Voto em BRANCO computado!');
-            handleVoteConfirmed();
+            handleVoteConfirmed(false);
         }
         setIsPopupOpen({ isOpen: false, message: '' });
     }
 
-    const handleVoteConfirmed = () => {
+    const handleVoteConfirmed = (alreadyVoted: boolean) => {
         setTimeout(() => {
-            setVoted(false);
+            setVoted({ alreadyVoted: alreadyVoted, voted: false });
         }, 2000)
-        setVoted(true);
+        setVoted({ alreadyVoted: alreadyVoted, voted: true });
         setTimeout(() => {
-            window.location.href = '/'
+            // window.location.href = '/'
         }, 2000)
     }
+
+    useEffect(() => {
+        getCandidateInputed(input);
+    }, [input]);
+
 
     return (
         <VotePageContainer>
@@ -73,13 +116,19 @@ export const VotePage: React.FC = () => {
 
             <Popup text='Voto computado!'
                 icon={HowToRegOutlinedIcon}
-                onConfirm={handleConfirm}
                 onCancel={handleOnClosePopup}
                 hasButton={false}
-                isOpen={voted}
+                isOpen={voted.voted && !voted.alreadyVoted}
             />
 
-            <Header canDesconnect={false}
+            <Popup text='Voto já contabilizado com esta carteira!'
+                icon={HowToRegOutlinedIcon}
+                onCancel={handleOnClosePopup}
+                hasButton={false}
+                isOpen={voted.voted && voted.alreadyVoted}
+            />
+
+            <Header login={false}
                 headerTitle={`Votação - <strong> DEPUTADO ESTADUAL </strong>`}
                 headerTitleSize='2.5vw'
                 canBackwards={true}
@@ -89,16 +138,16 @@ export const VotePage: React.FC = () => {
                 <VoteFieldContainer>
                     <TextField text='Digite o número do candidato:' style={{ fontSize: '2.3vw' }} />
                     <InputFieldContainer>
-                        <Input maxLength={6}
+                        <Input maxLength={2}
                             onChange={({ target }: any) => handleOnChange(target.value)}
                         />
                     </InputFieldContainer>
 
                     <ButtonsBox>
                         <Button text='CONFIRMA'
-                            disable={input.length !== 6 ? true : false}
-                            buttonStyles={{ width: '36%', height: '68%', backgroundColor: input.length === 6 ? '#27B410' : '#26b41075' }}
-                            fontStyles={{ fontSize: '1.3vw', fontWeight: 'bolder', color: input.length === 6 ? '#FFFF' : '#ffffff94' }}
+                            disable={input.length !== 2 ? true : false}
+                            buttonStyles={{ width: '36%', height: '68%', backgroundColor: input.length === 2 ? '#27B410' : '#26b41075' }}
+                            fontStyles={{ fontSize: '1.3vw', fontWeight: 'bolder', color: input.length === 2 ? '#FFFF' : '#ffffff94' }}
                             onClick={() => setIsPopupOpen({ isOpen: true, message: 'confirma' })}
                         />
                         <Button text='BRANCO'

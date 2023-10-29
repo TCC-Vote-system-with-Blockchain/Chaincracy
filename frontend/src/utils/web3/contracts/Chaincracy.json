@@ -1,0 +1,330 @@
+[
+    {
+        "inputs": [],
+        "stateMutability": "nonpayable",
+        "type": "constructor"
+    },
+    {
+        "anonymous": false,
+        "inputs": [
+            {
+                "indexed": false,
+                "internalType": "uint256",
+                "name": "candidatoId",
+                "type": "uint256"
+            }
+        ],
+        "name": "VotoRegistrado",
+        "type": "event"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "uint256",
+                "name": "_cargoId",
+                "type": "uint256"
+            }
+        ],
+        "name": "TotalVotosporCargo",
+        "outputs": [
+            {
+                "internalType": "uint256[]",
+                "name": "",
+                "type": "uint256[]"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "uint256",
+                "name": "_cargoId",
+                "type": "uint256"
+            },
+            {
+                "internalType": "uint256",
+                "name": "_numero",
+                "type": "uint256"
+            },
+            {
+                "internalType": "string",
+                "name": "_nomeCandidato",
+                "type": "string"
+            },
+            {
+                "internalType": "string",
+                "name": "_img",
+                "type": "string"
+            }
+        ],
+        "name": "adicionarCandidato",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "string",
+                "name": "_nomeCargo",
+                "type": "string"
+            }
+        ],
+        "name": "adicionarCargo",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "name": "candidatos",
+        "outputs": [
+            {
+                "internalType": "string",
+                "name": "nomeCandidato",
+                "type": "string"
+            },
+            {
+                "internalType": "uint256",
+                "name": "numero",
+                "type": "uint256"
+            },
+            {
+                "internalType": "uint256",
+                "name": "votos",
+                "type": "uint256"
+            },
+            {
+                "internalType": "string",
+                "name": "img",
+                "type": "string"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            },
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "name": "cargoCandidatos",
+        "outputs": [
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "name": "cargos",
+        "outputs": [
+            {
+                "internalType": "string",
+                "name": "nomeCargo",
+                "type": "string"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "finalizarVotacao",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "uint256",
+                "name": "_cargoId",
+                "type": "uint256"
+            }
+        ],
+        "name": "getCandidatosDoCargo",
+        "outputs": [
+            {
+                "internalType": "string[]",
+                "name": "",
+                "type": "string[]"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "uint256",
+                "name": "_cargoId",
+                "type": "uint256"
+            }
+        ],
+        "name": "getCandidatosIdsDoCargo",
+        "outputs": [
+            {
+                "internalType": "uint256[]",
+                "name": "",
+                "type": "uint256[]"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "uint256",
+                "name": "_numero",
+                "type": "uint256"
+            }
+        ],
+        "name": "getInformacaoCandidato",
+        "outputs": [
+            {
+                "components": [
+                    {
+                        "internalType": "string",
+                        "name": "nomeCandidato",
+                        "type": "string"
+                    },
+                    {
+                        "internalType": "uint256",
+                        "name": "numero",
+                        "type": "uint256"
+                    },
+                    {
+                        "internalType": "uint256",
+                        "name": "votos",
+                        "type": "uint256"
+                    },
+                    {
+                        "internalType": "string",
+                        "name": "img",
+                        "type": "string"
+                    }
+                ],
+                "internalType": "struct Chaincracy.Candidato",
+                "name": "",
+                "type": "tuple"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "uint256",
+                "name": "_candidatoId",
+                "type": "uint256"
+            }
+        ],
+        "name": "getNomeCandidato",
+        "outputs": [
+            {
+                "internalType": "string",
+                "name": "",
+                "type": "string"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "address",
+                "name": "",
+                "type": "address"
+            },
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "name": "hasCalled",
+        "outputs": [
+            {
+                "internalType": "bool",
+                "name": "",
+                "type": "bool"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "owner",
+        "outputs": [
+            {
+                "internalType": "address",
+                "name": "",
+                "type": "address"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "statusVotacao",
+        "outputs": [
+            {
+                "internalType": "bool",
+                "name": "",
+                "type": "bool"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "uint256",
+                "name": "_numero",
+                "type": "uint256"
+            },
+            {
+                "internalType": "uint256",
+                "name": "_cargoId",
+                "type": "uint256"
+            }
+        ],
+        "name": "votar",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    }
+]

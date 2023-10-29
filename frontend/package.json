@@ -23,7 +23,9 @@
     "react-scripts": "5.0.1",
     "styled-components": "^6.0.7",
     "typescript": "*",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.4",
+    "web3": "^1.10.0",
+    "web3modal": "^1.9.12"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^5.17.0",

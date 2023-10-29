@@ -32,7 +32,7 @@ export const Resultspage: React.FC = () => {
     return (
         <ResultsPageContainer>
             <Header canBackwards={true}
-                canDesconnect={true}
+                login={true}
                 headerTitle={`Resultados - <strong> ${typeOfResults} </strong>`}
                 headerTitleSize='2.5vw'
             />

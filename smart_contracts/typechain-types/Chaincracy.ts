@@ -23,6 +23,22 @@ import type {
   TypedContractMethod,
 } from "./common";
 
+export declare namespace Chaincracy {
+  export type CandidatoStruct = {
+    nomeCandidato: string;
+    numero: BigNumberish;
+    votos: BigNumberish;
+    img: string;
+  };
+
+  export type CandidatoStructOutput = [
+    nomeCandidato: string,
+    numero: bigint,
+    votos: bigint,
+    img: string
+  ] & { nomeCandidato: string; numero: bigint; votos: bigint; img: string };
+}
+
 export interface ChaincracyInterface extends Interface {
   getFunction(
     nameOrSignature:
@@ -35,6 +51,7 @@ export interface ChaincracyInterface extends Interface {
       | "finalizarVotacao"
       | "getCandidatosDoCargo"
       | "getCandidatosIdsDoCargo"
+      | "getInformacaoCandidato"
       | "getNomeCandidato"
       | "hasCalled"
       | "owner"
@@ -78,6 +95,10 @@ export interface ChaincracyInterface extends Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "getCandidatosIdsDoCargo",
+    values: [BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "getInformacaoCandidato",
     values: [BigNumberish]
   ): string;
   encodeFunctionData(
@@ -126,6 +147,10 @@ export interface ChaincracyInterface extends Interface {
   ): Result;
   decodeFunctionResult(
     functionFragment: "getCandidatosIdsDoCargo",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "getInformacaoCandidato",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -254,6 +279,12 @@ export interface Chaincracy extends BaseContract {
     "view"
   >;
 
+  getInformacaoCandidato: TypedContractMethod<
+    [_numero: BigNumberish],
+    [Chaincracy.CandidatoStructOutput],
+    "view"
+  >;
+
   getNomeCandidato: TypedContractMethod<
     [_candidatoId: BigNumberish],
     [string],
@@ -331,6 +362,13 @@ export interface Chaincracy extends BaseContract {
   getFunction(
     nameOrSignature: "getCandidatosIdsDoCargo"
   ): TypedContractMethod<[_cargoId: BigNumberish], [bigint[]], "view">;
+  getFunction(
+    nameOrSignature: "getInformacaoCandidato"
+  ): TypedContractMethod<
+    [_numero: BigNumberish],
+    [Chaincracy.CandidatoStructOutput],
+    "view"
+  >;
   getFunction(
     nameOrSignature: "getNomeCandidato"
   ): TypedContractMethod<[_candidatoId: BigNumberish], [string], "view">;

@@ -17,6 +17,7 @@ import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import TaskOutlinedIcon from '@mui/icons-material/TaskOutlined';
 import GppMaybeOutlinedIcon from '@mui/icons-material/GppMaybeOutlined';
 import { IStatus, IStatusColor } from "./model/models";
+import { useEffect } from "react";
 
 export const Dashboard: React.FC<{ status: IStatus }> = ({ status }) => {
 
@@ -25,6 +26,10 @@ export const Dashboard: React.FC<{ status: IStatus }> = ({ status }) => {
         [IStatus.EM_ANDAMENTO]: '#B4A310',
         [IStatus.FINALIZADA]: '#27B410',
     };
+
+    // useEffect(() => {
+    //     web3Service.checkIfWalletIsConnected();
+    // })
 
     const infoBoxContent: IInfoBox[] = [
         {
@@ -48,7 +53,10 @@ export const Dashboard: React.FC<{ status: IStatus }> = ({ status }) => {
     return (
         <DashboardContainer>
 
-            <Header canDesconnect={true} headerTitle='' canBackwards={false} headerStyles={{ marginBottom: '2%' }} />
+            <Header login={true}
+                headerTitle=''
+                canBackwards={false}
+                headerStyles={{ marginBottom: '2%' }} />
             <TextField text='HOMEPAGE' style={{
                 fontSize: '2vw',
                 fontWeight: 'bolder',

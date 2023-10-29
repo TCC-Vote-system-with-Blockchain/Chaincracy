@@ -47,7 +47,7 @@
     "deploy:contracts": "hardhat deploy",
     "hardhat": "hardhat",
     "hardhat:start": "hardhat node",
-    "hardhat:deploy": "hardhat deploy --network localhost",
+    "hardhat:deploy": "hardhat run scripts/deploy.ts --network localhost ",
     "lint": "pnpm lint:sol && pnpm lint:ts && pnpm prettier:check",
     "lint:sol": "solhint --max-warnings 0 \"contracts/**/*.sol\"",
     "test": "hardhat test",
