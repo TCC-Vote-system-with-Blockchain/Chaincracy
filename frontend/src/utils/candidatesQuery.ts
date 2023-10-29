@@ -9,16 +9,6 @@ const web3 = new Web3('http://127.0.0.1:8545');
 const contractAddress = ChaincracyAddress;
 const chaincracy = new web3.eth.Contract(ChaincracyAbi as AbiItem[], contractAddress);
 
-// const tentando = async () => {
-//     const account = await getCurrentAccount();
-//     // await chaincracy.methods.adicionarCargo('Presidente').send({ from: account });
-//     // await chaincracy.methods.adicionarCandidato(0, 13, 'Lula', 'qualquer_coisa').send({ from: account });
-//     // await chaincracy.methods.adicionarCandidato(0, 13, 'Lula', 'qualquer_coisa').send({ from: account });
-
-//     const naosei = await chaincracy.methods.getNomeCandidato(0).call();
-//     console.log(naosei);
-// }
-
 export const getCandidate = async (numberToFind: number) => {
     const account = await getCurrentAccount();
     try {
@@ -40,11 +30,8 @@ export const getCandidate = async (numberToFind: number) => {
             vote: 0
         } as ICandidato
     }
-
-    // const candidate = candidates.find(candidate => candidate.number === numberToFind);
 }
 
 export const getMostVotedCandidatesList = () => {
-    // const mostVotedCandidate = candidates.sort((a, b) => b.vote - a.vote);
     return {};
 }

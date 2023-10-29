@@ -27,10 +27,6 @@ export const Dashboard: React.FC<{ status: IStatus }> = ({ status }) => {
         [IStatus.FINALIZADA]: '#27B410',
     };
 
-    // useEffect(() => {
-    //     web3Service.checkIfWalletIsConnected();
-    // })
-
     const infoBoxContent: IInfoBox[] = [
         {
             icon: HowToVoteOutlinedIcon,

@@ -37,20 +37,6 @@ export const VotePage: React.FC = () => {
     const contractAddress = ChaincracyAddress;
     const chaincracy = new web3.eth.Contract(ChaincracyAbi as AbiItem[], contractAddress,);
 
-    const tentando = async () => {
-        const account = await getCurrentAccount();
-        await chaincracy.methods.adicionarCargo('Presidente').send({ from: account });
-        await chaincracy.methods.adicionarCandidato(0, 17, 'Bolsonaro', 'qualquer_coisa').send({ from: account });
-        await chaincracy.methods.adicionarCandidato(0, 10, 'Marina Silva', 'qualquer_coisa').send({ from: account });
-        await chaincracy.methods.adicionarCandidato(0, 11, 'Boulos', 'qualquer_coisa').send({ from: account });
-        await chaincracy.methods.adicionarCandidato(0, 12, 'Ciro', 'qualquer_coisa').send({ from: account });
-
-        const naosei = await chaincracy.methods.getNomeCandidato(0).call();
-        console.log(naosei);
-    }
-
-    // tentando();
-
     const getCandidateInputed = async (input: string) => {
         let candidate: ICandidato = await getCandidate(Number(input));
         console.log(candidate);
@@ -96,7 +82,6 @@ export const VotePage: React.FC = () => {
         }, 2000)
         setVoted({ alreadyVoted: alreadyVoted, voted: true });
         setTimeout(() => {
-            // window.location.href = '/'
         }, 2000)
     }
 
