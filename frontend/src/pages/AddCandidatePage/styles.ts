@@ -72,7 +72,7 @@ export const PositionDropdown = styled.div`
     z-index: 1;
 `;
 
-export const PositionsContainer = styled.div<{ $isDropdownOpen: boolean }>`
+export const PositionsContainer = styled.div<{ $isDropdownOpen: boolean | number | undefined }>`
     display: flex;
     flex-direction: column;
     width: 50%;

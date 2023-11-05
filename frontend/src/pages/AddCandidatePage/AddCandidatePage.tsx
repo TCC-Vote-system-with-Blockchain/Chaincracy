@@ -127,7 +127,7 @@ export const AddCandidate: React.FC = () => {
                             <KeyboardArrowUpIcon style={{ display: isDropdownOpen ? 'block' : 'none' }} />
                         </IconDropdown>
                     </PositionDropdown>
-                    <PositionsContainer $isDropdownOpen={isDropdownOpen}>
+                    <PositionsContainer $isDropdownOpen={isDropdownOpen && listedPositions?.length}>
                         {listedPositions && listedPositions.map((value, index) => (
                             <TextBox onClick={() => handleChangePosition(value, index)}
                                 key={index}>
