@@ -37,6 +37,10 @@ export declare namespace Chaincracy {
     votos: bigint,
     img: string
   ] & { nomeCandidato: string; numero: bigint; votos: bigint; img: string };
+
+  export type CargoStruct = { nomeCargo: string };
+
+  export type CargoStructOutput = [nomeCargo: string] & { nomeCargo: string };
 }
 
 export interface ChaincracyInterface extends Interface {
@@ -54,6 +58,7 @@ export interface ChaincracyInterface extends Interface {
       | "getInformacaoCandidato"
       | "getNomeCandidato"
       | "hasCalled"
+      | "listarCargos"
       | "owner"
       | "statusVotacao"
       | "votar"
@@ -109,6 +114,10 @@ export interface ChaincracyInterface extends Interface {
     functionFragment: "hasCalled",
     values: [AddressLike, BigNumberish]
   ): string;
+  encodeFunctionData(
+    functionFragment: "listarCargos",
+    values?: undefined
+  ): string;
   encodeFunctionData(functionFragment: "owner", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "statusVotacao",
@@ -158,6 +167,10 @@ export interface ChaincracyInterface extends Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "hasCalled", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "listarCargos",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(functionFragment: "owner", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "statusVotacao",
@@ -240,7 +253,7 @@ export interface Chaincracy extends BaseContract {
 
   adicionarCargo: TypedContractMethod<
     [_nomeCargo: string],
-    [void],
+    [bigint],
     "nonpayable"
   >;
 
@@ -297,6 +310,12 @@ export interface Chaincracy extends BaseContract {
     "view"
   >;
 
+  listarCargos: TypedContractMethod<
+    [],
+    [Chaincracy.CargoStructOutput[]],
+    "view"
+  >;
+
   owner: TypedContractMethod<[], [string], "view">;
 
   statusVotacao: TypedContractMethod<[], [boolean], "view">;
@@ -328,7 +347,7 @@ export interface Chaincracy extends BaseContract {
   >;
   getFunction(
     nameOrSignature: "adicionarCargo"
-  ): TypedContractMethod<[_nomeCargo: string], [void], "nonpayable">;
+  ): TypedContractMethod<[_nomeCargo: string], [bigint], "nonpayable">;
   getFunction(
     nameOrSignature: "candidatos"
   ): TypedContractMethod<
@@ -379,6 +398,9 @@ export interface Chaincracy extends BaseContract {
     [boolean],
     "view"
   >;
+  getFunction(
+    nameOrSignature: "listarCargos"
+  ): TypedContractMethod<[], [Chaincracy.CargoStructOutput[]], "view">;
   getFunction(
     nameOrSignature: "owner"
   ): TypedContractMethod<[], [string], "view">;

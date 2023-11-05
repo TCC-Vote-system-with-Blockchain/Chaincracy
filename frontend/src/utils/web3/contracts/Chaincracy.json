@@ -73,7 +73,13 @@
             }
         ],
         "name": "adicionarCargo",
-        "outputs": [],
+        "outputs": [
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            }
+        ],
         "stateMutability": "nonpayable",
         "type": "function"
     },
@@ -278,6 +284,26 @@
                 "internalType": "bool",
                 "name": "",
                 "type": "bool"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "listarCargos",
+        "outputs": [
+            {
+                "components": [
+                    {
+                        "internalType": "string",
+                        "name": "nomeCargo",
+                        "type": "string"
+                    }
+                ],
+                "internalType": "struct Chaincracy.Cargo[]",
+                "name": "",
+                "type": "tuple[]"
             }
         ],
         "stateMutability": "view",

@@ -44,7 +44,7 @@ export const ButtonDropdown: React.FC<Props> = ({ text, icon: IconComponent, dro
                         }}
                         />)
                     }
-                    <TextField text={text} style={{ fontSize: '1.5vw', textOverflow: 'ellipsis', fontWeight: 'bold' }} />
+                    <TextField text={text} style={{ fontSize: text.length < 10 ? '1.5vw' : '1.3vw', textOverflow: 'ellipsis', fontWeight: 'bold' }} />
                 </IconTextBox>
                 {
                     //Render dropdown icon only if it has content.

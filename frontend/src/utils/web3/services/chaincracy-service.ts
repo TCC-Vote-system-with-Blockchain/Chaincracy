@@ -25,3 +25,61 @@ export const vote = async (candidateNumber: number, positionId: number) => {
         }
     }
 }
+
+export const addNewPosition = async (name: string): Promise<IApiResponse> => {
+    try {
+        const account = await getCurrentAccount();
+        await chaincracy.methods.adicionarCargo(name).send({ from: account });
+
+        return {
+            status: true,
+            message: ''
+        };
+    }
+    catch (err: any) {
+        const errorMessage = err.message.match(/'([^']+)'/)[1];
+        console.log(errorMessage);
+
+        return {
+            status: false,
+            message: errorMessage
+        };
+    }
+}
+
+export const addNewCandidate = async (positionId: number, name: string, number: number): Promise<IApiResponse> => {
+    try {
+        const account = await getCurrentAccount();
+        await chaincracy.methods.adicionarCandidato(positionId, number, name, '').send({ from: account });
+
+        return {
+            status: true,
+            message: ''
+        };
+    }
+    catch (err: any) {
+        const errorMessage = err.message.match(/'([^']+)'/)[1];
+        console.log(errorMessage);
+
+        return {
+            status: false,
+            message: errorMessage
+        };
+    }
+}
+
+export const getPositions = async () => {
+    const positions = await chaincracy.methods.listarCargos().call();
+    const listedPositions = []
+    for (let i = 0; i < positions.length; i++) {
+        listedPositions.push(positions[i][0]);
+    }
+
+    return listedPositions;
+}
+
+export const getCandidatesFromPosition = async (positionID: number) => {
+    const candidates = await chaincracy.methods.getCandidatosDoCargo(positionID).call();
+
+    return candidates;
+}

@@ -5,6 +5,7 @@ import { IDropdownContent } from "../ButtonDropdown/model/models";
 import { getCurrentAccount } from "../../utils/web3/services/web3-service";
 import { useEffect, useState } from "react";
 import AccountBalanceWalletOutlinedIcon from '@mui/icons-material/AccountBalanceWalletOutlined';
+import ManageAccountsOutlinedIcon from '@mui/icons-material/ManageAccountsOutlined';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 
 export const Menu: React.FC = () => {
@@ -19,7 +20,7 @@ export const Menu: React.FC = () => {
         handleCurrentAccount();
     })
 
-    const dropdownContents: IDropdownContent[] = [
+    const dashboardDropdownContents: IDropdownContent[] = [
         {
             text: 'Resultados',
             path: '/results'
@@ -35,6 +36,21 @@ export const Menu: React.FC = () => {
         {
             text: 'Relatório',
             path: '/report'
+        }
+    ]
+
+    const electionManagementdropdownContents: IDropdownContent[] = [
+        {
+            text: 'Adicionar Novo Cargo',
+            path: '/add-position'
+        },
+        {
+            text: 'Adicionar Novo Candidato',
+            path: '/add-candidate'
+        },
+        {
+            text: 'Iniciar/Finalizar Eleição',
+            path: '/election-status'
         }
     ]
 
@@ -61,8 +77,16 @@ export const Menu: React.FC = () => {
 
             <Separator />
 
-            <ButtonDropdown text="Dashboard" icon={DashboardIcon} dropdown={dropdownContents} />
+            <ButtonDropdown text="Dashboard"
+                icon={DashboardIcon}
+                dropdown={dashboardDropdownContents} />
+
+            <ButtonDropdown text='Gerenciamento da Eleição'
+                path='/management' icon={ManageAccountsOutlinedIcon}
+                dropdown={electionManagementdropdownContents} />
+
             <ButtonDropdown text='Votação' path='/vote' />
+
         </MenuContainer >
     )
 }
