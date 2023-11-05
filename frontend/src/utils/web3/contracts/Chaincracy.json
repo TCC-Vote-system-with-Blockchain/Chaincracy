@@ -162,6 +162,13 @@
     },
     {
         "inputs": [],
+        "name": "comecarVotacao",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [],
         "name": "finalizarVotacao",
         "outputs": [],
         "stateMutability": "nonpayable",
@@ -324,12 +331,25 @@
     },
     {
         "inputs": [],
+        "name": "statusEleicao",
+        "outputs": [
+            {
+                "internalType": "string",
+                "name": "",
+                "type": "string"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
         "name": "statusVotacao",
         "outputs": [
             {
-                "internalType": "bool",
+                "internalType": "string",
                 "name": "",
-                "type": "bool"
+                "type": "string"
             }
         ],
         "stateMutability": "view",

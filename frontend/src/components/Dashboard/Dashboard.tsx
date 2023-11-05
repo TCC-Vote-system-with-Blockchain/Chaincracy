@@ -17,9 +17,12 @@ import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import TaskOutlinedIcon from '@mui/icons-material/TaskOutlined';
 import GppMaybeOutlinedIcon from '@mui/icons-material/GppMaybeOutlined';
 import { IStatus, IStatusColor } from "./model/models";
-import { useEffect } from "react";
 
-export const Dashboard: React.FC<{ status: IStatus }> = ({ status }) => {
+interface Props {
+    status: IStatus
+}
+
+export const Dashboard: React.FC<Props> = ({ status }) => {
 
     const statusColors: IStatusColor = {
         [IStatus.NAO_INICIADA]: '#494F57',

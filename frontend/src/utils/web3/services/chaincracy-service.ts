@@ -83,3 +83,28 @@ export const getCandidatesFromPosition = async (positionID: number) => {
 
     return candidates;
 }
+
+export const startElection = async () => {
+    try {
+        const account = await getCurrentAccount();
+        await chaincracy.methods.comecarVotacao().send({ from: account });
+    }
+    catch (err) {
+        console.log(err);
+    }
+}
+
+export const finishElection = async () => {
+    try {
+        const account = await getCurrentAccount();
+        await chaincracy.methods.finalizarVotacao().send({ from: account });
+    }
+    catch (err) {
+        console.log(err);
+    }
+}
+
+export const getElectionStatus = async (): Promise<string> => {
+    const status = await chaincracy.methods.statusEleicao().call();
+    return status;
+}

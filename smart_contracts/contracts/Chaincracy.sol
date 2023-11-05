@@ -19,7 +19,7 @@ contract Chaincracy {
     Cargo[] public cargos;
     Candidato[] public candidatos;
     address public owner;
-    bool public statusVotacao = true;
+    string public statusVotacao = 'not_started';
 
     mapping(uint256 => uint256[]) public cargoCandidatos;
     mapping(address => mapping(uint => bool)) public hasCalled;
@@ -34,7 +34,7 @@ contract Chaincracy {
     }
 
     modifier votacaoAberta() {
-        require(statusVotacao == true, "Votacao finalizada");
+        require(keccak256(abi.encodePacked(statusVotacao)) == keccak256(abi.encodePacked('in_progress')), "Votacao finalizada!");
         _;
     }
 
@@ -42,10 +42,10 @@ contract Chaincracy {
         string memory _nomeCargo
     ) public onlyOwnerOf votacaoAberta returns (uint256) {
         for (uint256 i = 0; i < cargos.length; i++) {
-            bytes32 nomeCargo = keccak256(abi.encodePacked(cargos[i].nomeCargo));
-            bytes32 incomingNomeCargo = keccak256(abi.encodePacked(_nomeCargo));
+            // bytes32 nomeCargo = keccak256(abi.encodePacked(cargos[i].nomeCargo));
+            // bytes32 incomingNomeCargo = keccak256(abi.encodePacked(_nomeCargo));
             require(
-                nomeCargo != incomingNomeCargo,
+                keccak256(abi.encodePacked(cargos[i].nomeCargo)) != keccak256(abi.encodePacked(_nomeCargo)),
                 "Cargo ja existente"
             );
         }
@@ -181,7 +181,15 @@ contract Chaincracy {
         return getVote(candidatoIds);
     }
 
-    function finalizarVotacao() public {
-        statusVotacao = false;
+    function finalizarVotacao() public onlyOwnerOf {
+        statusVotacao = 'finished';
+    }
+    
+    function comecarVotacao() public onlyOwnerOf {
+        statusVotacao = 'in_progress';
+    }
+
+    function statusEleicao () public view returns (string memory) {
+        return statusVotacao;
     }
 }

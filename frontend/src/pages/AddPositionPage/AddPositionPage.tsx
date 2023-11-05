@@ -11,7 +11,7 @@ import {
     InputFieldContainer,
     Input
 } from "./styles";
-import { addNewPosition } from "../../utils/web3/services/chaincracy-service";
+import { addNewPosition, getElectionStatus, startElection } from "../../utils/web3/services/chaincracy-service";
 import HowToRegOutlinedIcon from '@mui/icons-material/HowToRegOutlined';
 import PersonAddDisabledOutlinedIcon from '@mui/icons-material/PersonAddDisabledOutlined';
 import { IInsert } from "./models/addCandidato";
