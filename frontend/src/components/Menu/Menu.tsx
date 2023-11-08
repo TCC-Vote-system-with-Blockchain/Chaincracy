@@ -7,9 +7,18 @@ import { useEffect, useState } from "react";
 import AccountBalanceWalletOutlinedIcon from '@mui/icons-material/AccountBalanceWalletOutlined';
 import ManageAccountsOutlinedIcon from '@mui/icons-material/ManageAccountsOutlined';
 import DashboardIcon from '@mui/icons-material/Dashboard';
+import { getElectionStatus } from "../../utils/web3/services/chaincracy-service";
 
 export const Menu: React.FC = () => {
     const [currentAccount, setCurrentAccount] = useState();
+    const [electionInProgress, setElectionInProgress] = useState<boolean>(false);
+    const [dashboardDropdown, setDashboardDropdown] = useState<IDropdownContent[]>([]);
+
+    const isElectionFinished = async (): Promise<void> => {
+        const ElectionStatus = await getElectionStatus();
+
+        if (ElectionStatus === 'in_progress') setElectionInProgress(true);
+    }
 
     const handleCurrentAccount = async () => {
         const currentAccount = await getCurrentAccount();
@@ -18,26 +27,40 @@ export const Menu: React.FC = () => {
 
     useEffect(() => {
         handleCurrentAccount();
-    })
+        isElectionFinished();
+        dashboardDropdownContents();
+    }, [])
 
-    const dashboardDropdownContents: IDropdownContent[] = [
-        {
-            text: 'Resultados',
-            path: '/results'
-        },
-        {
-            text: 'Ajuda/FAQ',
-            path: '/help'
-        },
-        {
-            text: 'Suporte',
-            path: '/suport'
-        },
-        {
-            text: 'Relatório',
-            path: '/report'
+    const dashboardDropdownContents = async () => {
+        const ElectionStatus = await getElectionStatus();
+
+        const content = [
+            {
+                text: 'Ajuda/FAQ',
+                path: '/help'
+            },
+            {
+                text: 'Suporte',
+                path: '/suport'
+            },
+            {
+                text: 'Relatório',
+                path: '/report'
+            }
+        ];
+
+        if (ElectionStatus === 'finished') {
+            content.unshift(
+                {
+                    text: 'Resultados',
+                    path: '/results'
+                },
+            )
         }
-    ]
+
+        setDashboardDropdown(content);
+    }
+
 
     const electionManagementdropdownContents: IDropdownContent[] = [
         {
@@ -79,13 +102,13 @@ export const Menu: React.FC = () => {
 
             <ButtonDropdown text="Dashboard"
                 icon={DashboardIcon}
-                dropdown={dashboardDropdownContents} />
+                dropdown={dashboardDropdown} />
 
             <ButtonDropdown text='Gerenciamento da Eleição'
-                path='/management' icon={ManageAccountsOutlinedIcon}
+                icon={ManageAccountsOutlinedIcon}
                 dropdown={electionManagementdropdownContents} />
 
-            <ButtonDropdown text='Votação' path='/vote' />
+            {electionInProgress && <ButtonDropdown text='Votação' path='/vote' />}
 
         </MenuContainer >
     )

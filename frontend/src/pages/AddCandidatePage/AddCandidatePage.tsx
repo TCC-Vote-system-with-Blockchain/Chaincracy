@@ -18,11 +18,12 @@ import {
     IconDropdown
 } from "./styles";
 import { addNewCandidate, getPositions } from "../../utils/web3/services/chaincracy-service";
+import { IInsert } from "./models/addCandidato";
+import { IApiResponse } from "../../utils/web3/services/models/apiResponse";
 import HowToRegOutlinedIcon from '@mui/icons-material/HowToRegOutlined';
 import PersonAddDisabledOutlinedIcon from '@mui/icons-material/PersonAddDisabledOutlined';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
-import { IInsert } from "./models/addCandidato";
 
 export const AddCandidate: React.FC = () => {
     const [isPopupOpen, setIsPopupOpen] = useState({ isOpen: false, message: '' });

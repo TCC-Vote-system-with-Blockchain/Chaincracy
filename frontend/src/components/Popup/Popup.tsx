@@ -35,7 +35,7 @@ export const Popup: React.FC<Props> = ({ icon: IconComponent, text, hasButton, i
                         <TextField text={text} style={{
                             color: '#222831',
                             fontWeight: 'bold',
-                            fontSize: '2vw',
+                            fontSize: text.length <= 35 ? '2vw' : '1.8vw',
                             marginTop: '5%'
                         }} />
                     </PopupText>
