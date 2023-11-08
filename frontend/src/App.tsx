@@ -5,6 +5,7 @@ import { VotePage } from './pages/VotePage';
 import { Resultspage } from './pages/ResultsPage';
 import { AddPositionPage } from './pages/AddPositionPage';
 import { AddCandidate } from './pages/AddCandidatePage';
+import { ElectionStatusPage } from './pages/ElectionStatusPage';
 
 const App: React.FC = () => {
   return (
@@ -15,6 +16,7 @@ const App: React.FC = () => {
         <Route path='/results' Component={Resultspage} />
         <Route path='/add-candidate' Component={AddCandidate} />
         <Route path='/add-position' Component={AddPositionPage} />
+        <Route path='/election-status' Component={ElectionStatusPage} />
       </Routes>
     </BrowserRouter>
   )

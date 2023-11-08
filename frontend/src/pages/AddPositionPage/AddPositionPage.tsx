@@ -12,9 +12,10 @@ import {
     Input
 } from "./styles";
 import { addNewPosition, getElectionStatus, startElection } from "../../utils/web3/services/chaincracy-service";
+import { IInsert } from "./models/addCandidato";
+import { IApiResponse } from "../../utils/web3/services/models/apiResponse";
 import HowToRegOutlinedIcon from '@mui/icons-material/HowToRegOutlined';
 import PersonAddDisabledOutlinedIcon from '@mui/icons-material/PersonAddDisabledOutlined';
-import { IInsert } from "./models/addCandidato";
 
 export const AddPositionPage: React.FC = () => {
     const [isPopupOpen, setIsPopupOpen] = useState<boolean>(false);
@@ -55,6 +56,8 @@ export const AddPositionPage: React.FC = () => {
 
     return (
         <AddPositionContainer>
+
+
             <Popup text='Confirma a inserção?'
                 onConfirm={handleConfirm}
                 onCancel={handleOnClosePopup}
@@ -69,6 +72,12 @@ export const AddPositionPage: React.FC = () => {
                 isOpen={voted.insert && !voted.alreadyInserted}
             />
 
+            <Header login={false}
+                headerTitle={`Adicionar Novo Cargo`}
+                headerTitleSize='2.5vw'
+                canBackwards={true}
+            />
+
             <Popup text={`Falha ao inserir!<br><br>${error ? `ERRO: ${error}` : ''}`}
                 icon={PersonAddDisabledOutlinedIcon}
                 onCancel={handleOnClosePopup}
@@ -76,11 +85,6 @@ export const AddPositionPage: React.FC = () => {
                 isOpen={voted.insert && voted.alreadyInserted}
             />
 
-            <Header login={false}
-                headerTitle={`Adicionar Novo Cargo`}
-                headerTitleSize='2.5vw'
-                canBackwards={true}
-            />
 
             <AddPositionFieldContainer>
                 <TextField text='Digite o nome do cargo:' style={{ fontSize: '2vw' }} />

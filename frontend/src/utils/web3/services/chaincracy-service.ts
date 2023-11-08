@@ -2,6 +2,7 @@ import { ChaincracyAbi, ChaincracyAddress } from "../contracts";
 import { AbiItem } from 'web3-utils';
 import Web3 from "web3";
 import { getCurrentAccount } from "./web3-service";
+import { IApiResponse } from "./models/apiResponse";
 
 const web3 = new Web3('http://127.0.0.1:8545');
 const contractAddress = ChaincracyAddress;
@@ -84,23 +85,45 @@ export const getCandidatesFromPosition = async (positionID: number) => {
     return candidates;
 }
 
-export const startElection = async () => {
+export const startElection = async (): Promise<IApiResponse> => {
     try {
         const account = await getCurrentAccount();
         await chaincracy.methods.comecarVotacao().send({ from: account });
+
+        return {
+            status: true,
+            message: ''
+        };
     }
-    catch (err) {
-        console.log(err);
+    catch (err: any) {
+        const errorMessage = err.message.match(/'([^']+)'/)[1];
+        console.log(errorMessage);
+
+        return {
+            status: false,
+            message: errorMessage
+        };
     }
 }
 
-export const finishElection = async () => {
+export const finishElection = async (): Promise<IApiResponse> => {
     try {
         const account = await getCurrentAccount();
         await chaincracy.methods.finalizarVotacao().send({ from: account });
+
+        return {
+            status: true,
+            message: ''
+        };
     }
-    catch (err) {
-        console.log(err);
+    catch (err: any) {
+        const errorMessage = err.message.match(/'([^']+)'/)[1];
+        console.log(errorMessage);
+
+        return {
+            status: false,
+            message: errorMessage
+        };
     }
 }
 

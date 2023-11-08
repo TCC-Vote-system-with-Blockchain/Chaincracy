@@ -181,7 +181,7 @@ contract Chaincracy {
         return getVote(candidatoIds);
     }
 
-    function finalizarVotacao() public onlyOwnerOf {
+    function finalizarVotacao() public votacaoAberta onlyOwnerOf {
         statusVotacao = 'finished';
     }
     
