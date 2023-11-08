@@ -20,12 +20,9 @@ import {
     InputFieldContainer,
     Input
 } from "./styles";
-import Web3 from "web3";
-import { AbiItem } from 'web3-utils';
-import { getCurrentAccount } from "../../utils/web3/services/web3-service";
-import { ChaincracyAbi, ChaincracyAddress } from "../../utils/web3/contracts";
-import HowToRegOutlinedIcon from '@mui/icons-material/HowToRegOutlined';
 import { vote } from "../../utils/web3/services/chaincracy-service";
+import { ICandidato, IVote } from "./models/candidato";
+import HowToRegOutlinedIcon from '@mui/icons-material/HowToRegOutlined';
 
 export const VotePage: React.FC = () => {
     const [isPopupOpen, setIsPopupOpen] = useState({ isOpen: false, message: '' });
@@ -33,13 +30,8 @@ export const VotePage: React.FC = () => {
     const [voted, setVoted] = useState<IVote>({ alreadyVoted: false, voted: false });
     const [candidate, setCandidate] = useState<ICandidato>();
 
-    const web3 = new Web3('http://127.0.0.1:8545');
-    const contractAddress = ChaincracyAddress;
-    const chaincracy = new web3.eth.Contract(ChaincracyAbi as AbiItem[], contractAddress,);
-
     const getCandidateInputed = async (input: string) => {
         let candidate: ICandidato = await getCandidate(Number(input));
-        console.log(candidate);
         setCandidate(candidate);
     }
 
@@ -130,7 +122,7 @@ export const VotePage: React.FC = () => {
 
                     <ButtonsBox>
                         <Button text='CONFIRMA'
-                            disable={input.length !== 2 ? true : false}
+                            disable={input.length !== 2}
                             buttonStyles={{ width: '36%', height: '68%', backgroundColor: input.length === 2 ? '#27B410' : '#26b41075' }}
                             fontStyles={{ fontSize: '1.3vw', fontWeight: 'bolder', color: input.length === 2 ? '#FFFF' : '#ffffff94' }}
                             onClick={() => setIsPopupOpen({ isOpen: true, message: 'confirma' })}

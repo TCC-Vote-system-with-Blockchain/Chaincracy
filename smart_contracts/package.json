@@ -48,8 +48,6 @@
     "hardhat": "hardhat",
     "hardhat:start": "hardhat node",
     "hardhat:deploy": "hardhat run scripts/deploy.ts --network localhost ",
-    "lint": "pnpm lint:sol && pnpm lint:ts && pnpm prettier:check",
-    "lint:sol": "solhint --max-warnings 0 \"contracts/**/*.sol\"",
     "test": "hardhat test",
     "typechain": "cross-env TS_NODE_TRANSPILE_ONLY=true hardhat typechain"
   }

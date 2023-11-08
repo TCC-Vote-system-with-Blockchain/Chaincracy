@@ -7,6 +7,7 @@ export const ButtonDropdownBox = styled.div`
     height: 8vh;
     justify-content: space-between;
     align-items: center;
+    text-align: center;
     user-select: none;
     margin-top: 20px;
     border-radius: 10px;

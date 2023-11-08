@@ -4,19 +4,20 @@ import { ButtonBox, IconTextBox } from "./styles";
 import SvgIcon from '@mui/material/SvgIcon';
 
 interface Props {
-    onClick?: () => void;
+    id?: string,
     icon?: typeof SvgIcon;
     text: string;
     disable?: boolean;
     buttonStyles: CSSProperties;
     fontStyles: CSSProperties;
+    onClick?: () => void;
 }
 
-export const Button: React.FC<Props> = ({ onClick, text, disable, icon: IconComponent, buttonStyles, fontStyles }) => {
+export const Button: React.FC<Props> = ({ id, onClick, text, disable, icon: IconComponent, buttonStyles, fontStyles }) => {
 
     return (
         <>
-            <ButtonBox onClick={onClick} style={buttonStyles} disabled={disable}>
+            <ButtonBox id={id} onClick={onClick} style={buttonStyles} disabled={disable}>
                 <IconTextBox style={{
                     justifyContent: IconComponent ? '' : 'center',
                     width: IconComponent ? '90%' : '100%', ...fontStyles

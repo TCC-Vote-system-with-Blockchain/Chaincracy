@@ -4,7 +4,6 @@ import "@nomicfoundation/hardhat-toolbox";
 const polygonAPIKey: string | undefined = process.env.POLYGON_API_KEY;
 const polygonMainnetPrivateKey: string | undefined = process.env.POLYGON_MAINNET_PRIVATE_KEY;
 
-console.log(polygonAPIKey);
 const config: HardhatUserConfig = {
   defaultNetwork: "hardhat",
   networks: {
