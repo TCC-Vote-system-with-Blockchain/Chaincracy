@@ -23,7 +23,7 @@ export const ElectionStatusPage: React.FC = () => {
     const [electionStatus, setElectionStatus] = useState<string>('');
     const [confirmEvent, setConfirmEvent] = useState<boolean>(false);
     const [error, setError] = useState('');
-    console.log(confirmEvent);
+
     const handleStatus = () => {
         switch (electionStatus) {
             case 'finished':
@@ -76,7 +76,7 @@ export const ElectionStatusPage: React.FC = () => {
         debugger;
         setTimeout(() => {
             setConfirmEvent(false);
-        }, 2000)
+        }, 3000)
         setConfirmEvent(true);
         setTimeout(() => {
         }, 2000)

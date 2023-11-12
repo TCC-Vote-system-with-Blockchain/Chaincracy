@@ -12,7 +12,7 @@ export const MenuContainer = styled.div`
 export const TitleBox = styled.div`
     display: flex;
     width: 100%;
-    height: 9vh;
+    min-height: 9vh;
     margin-bottom: 2px;
     justify-content: center;
     align-items: center;
@@ -32,7 +32,7 @@ export const WalletInfoBox = styled.div`
     display: flex;
     flex-direction: row;
     width: 94%;
-    height: 12vh;
+    min-height: 12vh;
     align-items: center;
 `;
 

@@ -19,7 +19,7 @@ export const vote = async (candidateNumber: number, positionId: number) => {
         }
     }
     catch (err) {
-        console.log('Carteira já usada na votação!');
+        console.error('Carteira já usada na votação!');
         return {
             alreadyVoted: true,
             voted: true,
@@ -39,7 +39,7 @@ export const addNewPosition = async (name: string): Promise<IApiResponse> => {
     }
     catch (err: any) {
         const errorMessage = err.message.match(/'([^']+)'/)[1];
-        console.log(errorMessage);
+        console.error(errorMessage);
 
         return {
             status: false,
@@ -60,7 +60,7 @@ export const addNewCandidate = async (positionId: number, name: string, number: 
     }
     catch (err: any) {
         const errorMessage = err.message.match(/'([^']+)'/)[1];
-        console.log(errorMessage);
+        console.error(errorMessage);
 
         return {
             status: false,
@@ -97,7 +97,7 @@ export const startElection = async (): Promise<IApiResponse> => {
     }
     catch (err: any) {
         const errorMessage = err.message.match(/'([^']+)'/)[1];
-        console.log(errorMessage);
+        console.error(errorMessage);
 
         return {
             status: false,
@@ -118,7 +118,7 @@ export const finishElection = async (): Promise<IApiResponse> => {
     }
     catch (err: any) {
         const errorMessage = err.message.match(/'([^']+)'/)[1];
-        console.log(errorMessage);
+        console.error(errorMessage);
 
         return {
             status: false,
@@ -130,4 +130,19 @@ export const finishElection = async (): Promise<IApiResponse> => {
 export const getElectionStatus = async (): Promise<string> => {
     const status = await chaincracy.methods.statusEleicao().call();
     return status;
+}
+
+export const isMainWallet = async (): Promise<boolean> => {
+    try {
+        const account = await getCurrentAccount();
+        await chaincracy.methods.isOwner().send({ from: account });
+
+        return true;
+    }
+    catch (err: any) {
+        const errorMessage = err.message.match(/'([^']+)'/)[1];
+        console.error(errorMessage);
+
+        return false;
+    }
 }

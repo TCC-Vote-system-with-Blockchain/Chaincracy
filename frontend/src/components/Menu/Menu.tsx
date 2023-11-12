@@ -4,15 +4,17 @@ import { ChaincracyTitle, TitleBox, MenuContainer, Separator, WalletInfoBox, Wal
 import { IDropdownContent } from "../ButtonDropdown/model/models";
 import { getCurrentAccount } from "../../utils/web3/services/web3-service";
 import { useEffect, useState } from "react";
+import { getElectionStatus, isMainWallet } from "../../utils/web3/services/chaincracy-service";
 import AccountBalanceWalletOutlinedIcon from '@mui/icons-material/AccountBalanceWalletOutlined';
 import ManageAccountsOutlinedIcon from '@mui/icons-material/ManageAccountsOutlined';
 import DashboardIcon from '@mui/icons-material/Dashboard';
-import { getElectionStatus } from "../../utils/web3/services/chaincracy-service";
 
 export const Menu: React.FC = () => {
     const [currentAccount, setCurrentAccount] = useState();
     const [electionInProgress, setElectionInProgress] = useState<boolean>(false);
     const [dashboardDropdown, setDashboardDropdown] = useState<IDropdownContent[]>([]);
+    const [mainWallet, setMainWallet] = useState<boolean>(false);
+    const [managementDropdown, setManagementDropdown] = useState<IDropdownContent[]>([]);
 
     const isElectionFinished = async (): Promise<void> => {
         const ElectionStatus = await getElectionStatus();
@@ -20,18 +22,22 @@ export const Menu: React.FC = () => {
         if (ElectionStatus === 'in_progress') setElectionInProgress(true);
     }
 
-    const handleCurrentAccount = async () => {
+    const handleCurrentAccount = async (): Promise<void> => {
         const currentAccount = await getCurrentAccount();
         setCurrentAccount(currentAccount);
     }
 
-    useEffect(() => {
-        handleCurrentAccount();
-        isElectionFinished();
-        dashboardDropdownContents();
-    }, [])
+    const handleMainWallet = async (): Promise<void> => {
+        const response = await isMainWallet();
 
-    const dashboardDropdownContents = async () => {
+        if (response) {
+            setMainWallet(true);
+        } else {
+            setMainWallet(false);
+        }
+    }
+
+    const dashboardDropdownContents = async (): Promise<void> => {
         const ElectionStatus = await getElectionStatus();
 
         const content = [
@@ -61,21 +67,40 @@ export const Menu: React.FC = () => {
         setDashboardDropdown(content);
     }
 
+    const electionManagementdropdownContents = async (): Promise<void> => {
+        const ElectionStatus = await getElectionStatus();
 
-    const electionManagementdropdownContents: IDropdownContent[] = [
-        {
-            text: 'Adicionar Novo Cargo',
-            path: '/add-position'
-        },
-        {
-            text: 'Adicionar Novo Candidato',
-            path: '/add-candidate'
-        },
-        {
-            text: 'Iniciar/Finalizar Eleição',
-            path: '/election-status'
+        const content = [
+            {
+                text: 'Iniciar/Finalizar Eleição',
+                path: '/election-status'
+            }
+        ]
+
+        if (ElectionStatus === 'not_started') {
+            content.unshift(
+                {
+                    text: 'Adicionar Novo Cargo',
+                    path: '/add-position'
+                },
+                {
+                    text: 'Adicionar Novo Candidato',
+                    path: '/add-candidate'
+                },
+            )
         }
-    ]
+
+        setManagementDropdown(content);
+    }
+
+    useEffect(() => {
+        handleCurrentAccount();
+        isElectionFinished();
+        dashboardDropdownContents();
+        handleMainWallet();
+        electionManagementdropdownContents();
+    }, [])
+
 
     return (
         <MenuContainer>
@@ -102,13 +127,23 @@ export const Menu: React.FC = () => {
 
             <ButtonDropdown text="Dashboard"
                 icon={DashboardIcon}
-                dropdown={dashboardDropdown} />
+                dropdown={dashboardDropdown}
+            />
 
-            <ButtonDropdown text='Gerenciamento da Eleição'
-                icon={ManageAccountsOutlinedIcon}
-                dropdown={electionManagementdropdownContents} />
+            {
+                mainWallet && (
+                    <ButtonDropdown text='Gerenciamento da Eleição'
+                        icon={ManageAccountsOutlinedIcon}
+                        dropdown={managementDropdown}
+                    />
+                )
+            }
 
-            {electionInProgress && <ButtonDropdown text='Votação' path='/vote' />}
+            {
+                electionInProgress && (
+                    <ButtonDropdown text='Votação' path='/vote' />
+                )
+            }
 
         </MenuContainer >
     )

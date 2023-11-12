@@ -59,6 +59,7 @@ export interface ChaincracyInterface extends Interface {
       | "getInformacaoCandidato"
       | "getNomeCandidato"
       | "hasCalled"
+      | "isOwner"
       | "listarCargos"
       | "owner"
       | "statusEleicao"
@@ -120,6 +121,7 @@ export interface ChaincracyInterface extends Interface {
     functionFragment: "hasCalled",
     values: [AddressLike, BigNumberish]
   ): string;
+  encodeFunctionData(functionFragment: "isOwner", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "listarCargos",
     values?: undefined
@@ -181,6 +183,7 @@ export interface ChaincracyInterface extends Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "hasCalled", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "isOwner", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "listarCargos",
     data: BytesLike
@@ -271,7 +274,7 @@ export interface Chaincracy extends BaseContract {
 
   adicionarCargo: TypedContractMethod<
     [_nomeCargo: string],
-    [bigint],
+    [void],
     "nonpayable"
   >;
 
@@ -330,6 +333,8 @@ export interface Chaincracy extends BaseContract {
     "view"
   >;
 
+  isOwner: TypedContractMethod<[], [void], "view">;
+
   listarCargos: TypedContractMethod<
     [],
     [Chaincracy.CargoStructOutput[]],
@@ -369,7 +374,7 @@ export interface Chaincracy extends BaseContract {
   >;
   getFunction(
     nameOrSignature: "adicionarCargo"
-  ): TypedContractMethod<[_nomeCargo: string], [bigint], "nonpayable">;
+  ): TypedContractMethod<[_nomeCargo: string], [void], "nonpayable">;
   getFunction(
     nameOrSignature: "candidatos"
   ): TypedContractMethod<
@@ -423,6 +428,9 @@ export interface Chaincracy extends BaseContract {
     [boolean],
     "view"
   >;
+  getFunction(
+    nameOrSignature: "isOwner"
+  ): TypedContractMethod<[], [void], "view">;
   getFunction(
     nameOrSignature: "listarCargos"
   ): TypedContractMethod<[], [Chaincracy.CargoStructOutput[]], "view">;

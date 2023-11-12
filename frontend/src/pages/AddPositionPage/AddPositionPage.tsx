@@ -11,7 +11,7 @@ import {
     InputFieldContainer,
     Input
 } from "./styles";
-import { addNewPosition, getElectionStatus, startElection } from "../../utils/web3/services/chaincracy-service";
+import { addNewPosition } from "../../utils/web3/services/chaincracy-service";
 import { IInsert } from "./models/addCandidato";
 import { IApiResponse } from "../../utils/web3/services/models/apiResponse";
 import HowToRegOutlinedIcon from '@mui/icons-material/HowToRegOutlined';
@@ -56,7 +56,6 @@ export const AddPositionPage: React.FC = () => {
 
     return (
         <AddPositionContainer>
-
 
             <Popup text='Confirma a inserção?'
                 onConfirm={handleConfirm}
@@ -106,7 +105,9 @@ export const AddPositionPage: React.FC = () => {
                     />
                 </ButtonsBox>
             </AddPositionFieldContainer>
+
             <Footer />
+
         </AddPositionContainer >
     );
 }

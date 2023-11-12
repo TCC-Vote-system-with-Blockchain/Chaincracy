@@ -36,6 +36,7 @@ export const AddCandidate: React.FC = () => {
 
     const getListedPositions = async () => {
         let positions = await getPositions();
+
         setListedPositions(positions);
     }
 
