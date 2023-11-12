@@ -46,7 +46,7 @@ contract Chaincracy {
 
     function adicionarCargo(
         string memory _nomeCargo
-    ) public onlyOwnerOf votacaoAberta returns (uint256) {
+    ) public onlyOwnerOf {
         for (uint256 i = 0; i < cargos.length; i++) {
             require(
                 keccak256(abi.encodePacked(cargos[i].nomeCargo)) != keccak256(abi.encodePacked(_nomeCargo)),
@@ -57,12 +57,9 @@ contract Chaincracy {
         Cargo memory novoCargo;
         novoCargo.nomeCargo = _nomeCargo;
         cargos.push(novoCargo);
-
-        uint256 cargoID = cargos.length - 1;
-        return cargoID;
     }
 
-    function listarCargos() public view votacaoAberta returns (Cargo[] memory) {
+    function listarCargos() public view returns (Cargo[] memory) {
         return cargos;
     }
 
@@ -71,7 +68,7 @@ contract Chaincracy {
         uint256 _numero,
         string memory _nomeCandidato,
         string memory _img
-    ) public onlyOwnerOf votacaoAberta {
+    ) public onlyOwnerOf {
         for (uint256 i = 0; i < candidatos.length; i++) {
             if (candidatos[i].numero == _numero) {
                 uint256[] memory ids = getCandidatosIdsDoCargo(_cargoId);

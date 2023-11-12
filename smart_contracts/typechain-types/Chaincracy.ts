@@ -274,7 +274,7 @@ export interface Chaincracy extends BaseContract {
 
   adicionarCargo: TypedContractMethod<
     [_nomeCargo: string],
-    [bigint],
+    [void],
     "nonpayable"
   >;
 
@@ -374,7 +374,7 @@ export interface Chaincracy extends BaseContract {
   >;
   getFunction(
     nameOrSignature: "adicionarCargo"
-  ): TypedContractMethod<[_nomeCargo: string], [bigint], "nonpayable">;
+  ): TypedContractMethod<[_nomeCargo: string], [void], "nonpayable">;
   getFunction(
     nameOrSignature: "candidatos"
   ): TypedContractMethod<

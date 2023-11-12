@@ -77,7 +77,7 @@ export const Menu: React.FC = () => {
             }
         ]
 
-        if (ElectionStatus === 'finished') {
+        if (ElectionStatus === 'not_started') {
             content.unshift(
                 {
                     text: 'Adicionar Novo Cargo',

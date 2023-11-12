@@ -35,7 +35,6 @@ export const VotePage: React.FC = () => {
         setCandidate(candidate);
     }
 
-
     const handleOnChange = (value: any) => {
         if (value.length === 2) {
             setInput(value);
