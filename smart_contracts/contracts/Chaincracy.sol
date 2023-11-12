@@ -38,12 +38,16 @@ contract Chaincracy {
         _;
     }
 
+    function isOwner() public view {
+       if(!(owner == msg.sender)) {
+        revert("Entrou no IF e a carteira nao eh igual.");
+       }
+    }
+
     function adicionarCargo(
         string memory _nomeCargo
     ) public onlyOwnerOf votacaoAberta returns (uint256) {
         for (uint256 i = 0; i < cargos.length; i++) {
-            // bytes32 nomeCargo = keccak256(abi.encodePacked(cargos[i].nomeCargo));
-            // bytes32 incomingNomeCargo = keccak256(abi.encodePacked(_nomeCargo));
             require(
                 keccak256(abi.encodePacked(cargos[i].nomeCargo)) != keccak256(abi.encodePacked(_nomeCargo)),
                 "Cargo ja existente"

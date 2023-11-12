@@ -44,36 +44,48 @@ export const ButtonDropdown: React.FC<Props> = ({ text, icon: IconComponent, dro
                         }}
                         />)
                     }
-                    <TextField text={text} style={{ fontSize: text.length < 10 ? '1.5vw' : '1.3vw', textOverflow: 'ellipsis', fontWeight: 'bold' }} />
+                    <TextField text={text}
+                        style={{ fontSize: text.length < 10 ? '1.5vw' : '1.3vw', textOverflow: 'ellipsis', fontWeight: 'bold' }}
+                    />
                 </IconTextBox>
                 {
                     //Render dropdown icon only if it has content.
-                    dropdown && <DropdownArrowsBox>
-                        {isOpen && <KeyboardArrowUpIcon style={{
-                            marginRight: '10px',
-                            fontSize: '1.8vw'
-                        }} />}
+                    dropdown && (
+                        <DropdownArrowsBox>
+                            {isOpen && (
+                                <KeyboardArrowUpIcon style={{
+                                    marginRight: '10px',
+                                    fontSize: '1.8vw'
+                                }} />
+                            )
+                            }
 
-                        {!isOpen && <KeyboardArrowDownIcon style={{
-                            marginRight: '10px',
-                            fontSize: '1.8vw'
-                        }} />}
-                    </DropdownArrowsBox>
+                            {!isOpen && (
+                                <KeyboardArrowDownIcon style={{
+                                    marginRight: '10px',
+                                    fontSize: '1.8vw'
+                                }} />
+                            )}
+                        </DropdownArrowsBox>
+                    )
                 }
-
             </ButtonDropdownBox>
+
             {
-                dropdown && <DropdownListBox style={{ height: isOpen ? '35vh' : '0vh' }}>
-                    {isOpen && dropdown.map((item, index) => (
-                        <TextField
-                            key={index}
-                            text={item.text}
-                            onClick={() => { window.location.href = item.path }}
-                            style={{ cursor: 'pointer', fontSize: '1.3vw' }}
-                        />
-                    ))}
-                </DropdownListBox>
-            }
+                dropdown && (
+                    <DropdownListBox style={{ height: isOpen ? '35vh' : '0vh' }}
+                        $haveOneElement={dropdown?.length === 1}
+                    >
+                        {isOpen && dropdown.map((item, index) => (
+                            <TextField
+                                key={index}
+                                text={item.text}
+                                onClick={() => { window.location.href = item.path }}
+                                style={{ cursor: 'pointer', fontSize: '1.3vw' }}
+                            />
+                        ))}
+                    </DropdownListBox>
+                )}
         </>
     );
 }

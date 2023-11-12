@@ -298,6 +298,13 @@
     },
     {
         "inputs": [],
+        "name": "isOwner",
+        "outputs": [],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
         "name": "listarCargos",
         "outputs": [
             {

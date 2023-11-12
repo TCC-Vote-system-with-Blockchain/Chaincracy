@@ -4,7 +4,7 @@ export const ButtonDropdownBox = styled.div`
     cursor: pointer;
     display: flex;
     width: 80%;
-    height: 8vh;
+    min-height: 8vh;
     justify-content: space-between;
     align-items: center;
     text-align: center;
@@ -24,11 +24,16 @@ export const DropdownArrowsBox = styled.div`
     color: #FFFF;
 `;
 
-export const DropdownListBox = styled.div`
+export const DropdownListBox = styled.div<{ $haveOneElement: boolean | undefined }>`
     display: flex;
     text-align: center;
     flex-direction: column;
-    justify-content: space-around;
+    justify-content: ${props => !props.$haveOneElement ? 'space-around' : ''};
+    height: ${props => props.$haveOneElement ? 'auto' : ''} !important;
     width: 80%;
     transition: all ease 0.4s;
+    
+    & > span {
+        margin-top: ${props => !props.$haveOneElement ? '' : '25px'};
+    }
 `;
