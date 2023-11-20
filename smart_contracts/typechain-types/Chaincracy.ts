@@ -65,6 +65,7 @@ export interface ChaincracyInterface extends Interface {
       | "isOwner"
       | "listarCargos"
       | "owner"
+      | "prepararVotacao"
       | "statusEleicao"
       | "statusVotacao"
       | "votar"
@@ -143,6 +144,10 @@ export interface ChaincracyInterface extends Interface {
   ): string;
   encodeFunctionData(functionFragment: "owner", values?: undefined): string;
   encodeFunctionData(
+    functionFragment: "prepararVotacao",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
     functionFragment: "statusEleicao",
     values?: undefined
   ): string;
@@ -213,6 +218,10 @@ export interface ChaincracyInterface extends Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "owner", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "prepararVotacao",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(
     functionFragment: "statusEleicao",
     data: BytesLike
@@ -381,6 +390,8 @@ export interface Chaincracy extends BaseContract {
 
   owner: TypedContractMethod<[], [string], "view">;
 
+  prepararVotacao: TypedContractMethod<[], [void], "nonpayable">;
+
   statusEleicao: TypedContractMethod<[], [string], "view">;
 
   statusVotacao: TypedContractMethod<[], [string], "view">;
@@ -496,6 +507,9 @@ export interface Chaincracy extends BaseContract {
   getFunction(
     nameOrSignature: "owner"
   ): TypedContractMethod<[], [string], "view">;
+  getFunction(
+    nameOrSignature: "prepararVotacao"
+  ): TypedContractMethod<[], [void], "nonpayable">;
   getFunction(
     nameOrSignature: "statusEleicao"
   ): TypedContractMethod<[], [string], "view">;

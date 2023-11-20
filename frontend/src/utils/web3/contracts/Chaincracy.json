@@ -454,6 +454,13 @@
     },
     {
         "inputs": [],
+        "name": "prepararVotacao",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [],
         "name": "statusEleicao",
         "outputs": [
             {

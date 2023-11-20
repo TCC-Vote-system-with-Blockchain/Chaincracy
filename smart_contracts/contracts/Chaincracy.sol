@@ -243,6 +243,10 @@ contract Chaincracy {
     function comecarVotacao() public onlyOwnerOf {
         statusVotacao = 'in_progress';
     }
+    
+    function prepararVotacao() public onlyOwnerOf {
+        statusVotacao = 'not_started';
+    }
 
     function statusEleicao () public view returns (string memory) {
         return statusVotacao;
