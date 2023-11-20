@@ -46,6 +46,7 @@ export declare namespace Chaincracy {
 export interface ChaincracyInterface extends Interface {
   getFunction(
     nameOrSignature:
+      | "TotalVotos"
       | "TotalVotosporCargo"
       | "adicionarCandidato"
       | "adicionarCargo"
@@ -54,9 +55,11 @@ export interface ChaincracyInterface extends Interface {
       | "cargos"
       | "comecarVotacao"
       | "finalizarVotacao"
+      | "getCandidatoDoCargo"
       | "getCandidatosDoCargo"
       | "getCandidatosIdsDoCargo"
       | "getInformacaoCandidato"
+      | "getListaDeCandidatoPorCargoPrimerioVencedor"
       | "getNomeCandidato"
       | "hasCalled"
       | "isOwner"
@@ -69,6 +72,10 @@ export interface ChaincracyInterface extends Interface {
 
   getEvent(nameOrSignatureOrTopic: "VotoRegistrado"): EventFragment;
 
+  encodeFunctionData(
+    functionFragment: "TotalVotos",
+    values?: undefined
+  ): string;
   encodeFunctionData(
     functionFragment: "TotalVotosporCargo",
     values: [BigNumberish]
@@ -102,6 +109,10 @@ export interface ChaincracyInterface extends Interface {
     values?: undefined
   ): string;
   encodeFunctionData(
+    functionFragment: "getCandidatoDoCargo",
+    values: [BigNumberish, BigNumberish]
+  ): string;
+  encodeFunctionData(
     functionFragment: "getCandidatosDoCargo",
     values: [BigNumberish]
   ): string;
@@ -111,6 +122,10 @@ export interface ChaincracyInterface extends Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "getInformacaoCandidato",
+    values: [BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "getListaDeCandidatoPorCargoPrimerioVencedor",
     values: [BigNumberish]
   ): string;
   encodeFunctionData(
@@ -140,6 +155,7 @@ export interface ChaincracyInterface extends Interface {
     values: [BigNumberish, BigNumberish]
   ): string;
 
+  decodeFunctionResult(functionFragment: "TotalVotos", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "TotalVotosporCargo",
     data: BytesLike
@@ -167,6 +183,10 @@ export interface ChaincracyInterface extends Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
+    functionFragment: "getCandidatoDoCargo",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
     functionFragment: "getCandidatosDoCargo",
     data: BytesLike
   ): Result;
@@ -176,6 +196,10 @@ export interface ChaincracyInterface extends Interface {
   ): Result;
   decodeFunctionResult(
     functionFragment: "getInformacaoCandidato",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "getListaDeCandidatoPorCargoPrimerioVencedor",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -255,6 +279,8 @@ export interface Chaincracy extends BaseContract {
     event?: TCEvent
   ): Promise<this>;
 
+  TotalVotos: TypedContractMethod<[], [bigint], "view">;
+
   TotalVotosporCargo: TypedContractMethod<
     [_cargoId: BigNumberish],
     [bigint[]],
@@ -303,9 +329,15 @@ export interface Chaincracy extends BaseContract {
 
   finalizarVotacao: TypedContractMethod<[], [void], "nonpayable">;
 
+  getCandidatoDoCargo: TypedContractMethod<
+    [candidateNumber: BigNumberish, _cargoId: BigNumberish],
+    [Chaincracy.CandidatoStructOutput],
+    "view"
+  >;
+
   getCandidatosDoCargo: TypedContractMethod<
     [_cargoId: BigNumberish],
-    [string[]],
+    [Chaincracy.CandidatoStructOutput[]],
     "view"
   >;
 
@@ -318,6 +350,12 @@ export interface Chaincracy extends BaseContract {
   getInformacaoCandidato: TypedContractMethod<
     [_numero: BigNumberish],
     [Chaincracy.CandidatoStructOutput],
+    "view"
+  >;
+
+  getListaDeCandidatoPorCargoPrimerioVencedor: TypedContractMethod<
+    [_cargoId: BigNumberish],
+    [Chaincracy.CandidatoStructOutput[]],
     "view"
   >;
 
@@ -357,6 +395,9 @@ export interface Chaincracy extends BaseContract {
     key: string | FunctionFragment
   ): T;
 
+  getFunction(
+    nameOrSignature: "TotalVotos"
+  ): TypedContractMethod<[], [bigint], "view">;
   getFunction(
     nameOrSignature: "TotalVotosporCargo"
   ): TypedContractMethod<[_cargoId: BigNumberish], [bigint[]], "view">;
@@ -406,8 +447,19 @@ export interface Chaincracy extends BaseContract {
     nameOrSignature: "finalizarVotacao"
   ): TypedContractMethod<[], [void], "nonpayable">;
   getFunction(
+    nameOrSignature: "getCandidatoDoCargo"
+  ): TypedContractMethod<
+    [candidateNumber: BigNumberish, _cargoId: BigNumberish],
+    [Chaincracy.CandidatoStructOutput],
+    "view"
+  >;
+  getFunction(
     nameOrSignature: "getCandidatosDoCargo"
-  ): TypedContractMethod<[_cargoId: BigNumberish], [string[]], "view">;
+  ): TypedContractMethod<
+    [_cargoId: BigNumberish],
+    [Chaincracy.CandidatoStructOutput[]],
+    "view"
+  >;
   getFunction(
     nameOrSignature: "getCandidatosIdsDoCargo"
   ): TypedContractMethod<[_cargoId: BigNumberish], [bigint[]], "view">;
@@ -416,6 +468,13 @@ export interface Chaincracy extends BaseContract {
   ): TypedContractMethod<
     [_numero: BigNumberish],
     [Chaincracy.CandidatoStructOutput],
+    "view"
+  >;
+  getFunction(
+    nameOrSignature: "getListaDeCandidatoPorCargoPrimerioVencedor"
+  ): TypedContractMethod<
+    [_cargoId: BigNumberish],
+    [Chaincracy.CandidatoStructOutput[]],
     "view"
   >;
   getFunction(

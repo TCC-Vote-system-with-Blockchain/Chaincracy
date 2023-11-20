@@ -48,10 +48,11 @@ export const addNewPosition = async (name: string): Promise<IApiResponse> => {
     }
 }
 
-export const addNewCandidate = async (positionId: number, name: string, number: number): Promise<IApiResponse> => {
+export const addNewCandidate = async (positionId: number, name: string, number: number, picture: string): Promise<IApiResponse> => {
     try {
         const account = await getCurrentAccount();
-        await chaincracy.methods.adicionarCandidato(positionId, number, name, '').send({ from: account });
+
+        await chaincracy.methods.adicionarCandidato(positionId, number, name, picture).send({ from: account });
 
         return {
             status: true,
@@ -144,5 +145,59 @@ export const isMainWallet = async (): Promise<boolean> => {
         console.error(errorMessage);
 
         return false;
+    }
+}
+
+export const getCandidateFromPosition = async (candidateNumber: number, positionId: number) => {
+    try {
+        const candidate = await chaincracy.methods.getCandidatoDoCargo(candidateNumber, positionId).call();
+
+        return candidate;
+    }
+    catch (err: any) {
+        const errorMessage = err.message.match(/'([^']+)'/)[1];
+        console.error(errorMessage);
+    }
+}
+
+export const voteFlow = async (positionIndex: number) => {
+    try {
+        const positions = await getPositions();
+
+        if (positionIndex > positions.length) {
+            throw new Error('Lista finalizada!');
+        }
+
+        console.log(positions[positionIndex]);
+
+        return positions[positionIndex];
+    }
+    catch (err: any) {
+        const errorMessage = err.message.match(/'([^']+)'/)[1];
+        console.error(errorMessage);
+    }
+}
+
+export const totalVotes = async () => {
+    try {
+        const totalVotes = await chaincracy.methods.TotalVotos().call();
+
+        return totalVotes;
+    }
+    catch (err: any) {
+        const errorMessage = err.message.match(/'([^']+)'/)[1];
+        console.error(errorMessage);
+    }
+}
+
+export const getMostVotedByPosition = async (positionID: number) => {
+    try {
+        const candidates = await chaincracy.methods.getListaDeCandidatoPorCargoPrimerioVencedor(positionID).call();
+
+        return candidates;
+    }
+    catch (err: any) {
+        const errorMessage = err.message.match(/'([^']+)'/)[1];
+        console.error(errorMessage);
     }
 }

@@ -1,144 +1,144 @@
+import { useEffect, useMemo, useState } from "react";
 import { Header } from "../../components/Header";
 import { TextField } from "../../components/TextField";
-import { getMostVotedCandidatesList } from "../../utils/candidatesQuery";
+import { getPositions, totalVotes, getCandidatesFromPosition, getMostVotedByPosition } from "../../utils/web3/services/chaincracy-service";
 import {
-    CandidateNameField,
-    CandidateNumberField,
-    CandidateRow,
-    ElectionResultTableContainer,
-    ElectionWinnerContainer,
-    ResultsPageContainer,
-    WinnerBox,
-    WinnerInfoBox,
-    WinnerPictureBox,
-    WinnerCandidateNameField,
-    WinnerCandidateNumberField,
-    CandidateVoteField,
-    WinnerCandidateVoteField,
-    SectionTitle,
-    ElectionResultTable,
-    TableHeaderComponents,
-    HeaderColumn,
     CandidatePicture,
-    CandidatePictureBox,
-    CandidatePlacimentField
+    CandidateResult,
+    CandidatesResultsContainer,
+    IconDropdown,
+    PositionDropdown,
+    PositionText,
+    PositionsContainer,
+    Results,
+    ResultsDashboard,
+    ResultsPageContainer,
+    TextBox,
+    TotalVoteCard,
+    TotalVoteContainer,
 } from "./styles";
+import { getPicture } from "../../utils/getPicture";
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 
 export const Resultspage: React.FC = () => {
-    const typeOfResults = 'DEPUTADO ESTADUAL';
-    const candidatesList = getMostVotedCandidatesList();
-    const winnerCandidate = getMostVotedCandidatesList()[0];
+    const [totalElectionVotes, getTotalElectionVotes] = useState();
+    const [listedPositions, setListedPositions] = useState<string[]>();
+    const [candidates, setCandidates] = useState([]);
+    const [selectedPosition, setSelectedPosition] = useState<string>();
+    const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(false);
+
+    const handleGetTotalVotes = async () => {
+        getTotalElectionVotes(await totalVotes());
+        setListedPositions(await getPositions());
+
+        if (listedPositions) {
+            setSelectedPosition(listedPositions[0]);
+            setCandidates(await getMostVotedByPosition(0));
+        }
+    }
+
+    const handleChangePosition = async (name: string, position: number) => {
+        setSelectedPosition(name);
+        setCandidates(await getMostVotedByPosition(position));
+        setIsDropdownOpen(!isDropdownOpen);
+    }
+
+    useEffect(() => {
+        handleGetTotalVotes();
+    }, []);
 
     return (
         <ResultsPageContainer>
             <Header canBackwards={true}
-                login={true}
-                headerTitle={`Resultados - <strong> ${typeOfResults} </strong>`}
+                login={false}
+                headerTitle={`Eleição - <strong> Resultados </strong>`}
                 headerTitleSize='2.5vw'
             />
+            <ResultsDashboard>
+                <TotalVoteContainer>
+                    <TotalVoteCard>
+                        <TextField
+                            text='Total de Votos:'
+                            style={{
+                                color: 'black',
+                                fontWeight: 'bold',
+                                fontSize: '3vw'
+                            }}
+                        />
 
-            <SectionTitle>
-                <TextField style={{
-                    color: 'black',
-                    fontSize: '2.7vw',
-                    fontWeight: 'bold',
-                    borderLeft: '10%'
-                }}
-                    text='VENCEDOR'
-                />
-            </SectionTitle>
-            <ElectionWinnerContainer>
-                <WinnerBox>
-                    <WinnerInfoBox>
-                        <WinnerCandidateNameField>
-                            <TextField style={{ color: 'white', fontSize: '2vw' }}
-                                text={winnerCandidate.name}
-                            />
-                        </WinnerCandidateNameField>
-                        <WinnerCandidateNumberField>
-                            <TextField style={{ color: 'white', fontSize: '2vw' }}
-                                text={`${winnerCandidate.number}`}
-                            />
-                        </WinnerCandidateNumberField>
-                        <WinnerCandidateVoteField>
-                            <TextField style={{ color: 'white', fontSize: '5vw', fontWeight: 'bold' }}
-                                text={`TOTAL: ${winnerCandidate.vote}`}
-                            />
-                        </WinnerCandidateVoteField>
-                    </WinnerInfoBox>
-                    <WinnerPictureBox>
-                        <CandidatePictureBox>
-                            <CandidatePicture src={winnerCandidate?.picture} />
-                        </CandidatePictureBox>
-                    </WinnerPictureBox>
-                </WinnerBox>
-            </ElectionWinnerContainer>
+                        <TextField
+                            text={totalElectionVotes}
+                            style={{
+                                color: 'black',
+                                fontWeight: 'bold',
+                                fontSize: '2.5vw'
+                            }}
+                        />
+                    </TotalVoteCard>
+                </TotalVoteContainer>
+                <Results>
+                    <PositionDropdown onClick={() => setIsDropdownOpen(!isDropdownOpen)}>
+                        <PositionText>
+                            <TextField text={selectedPosition} />
+                        </PositionText>
+                        <IconDropdown>
+                            <KeyboardArrowDownIcon style={{ display: isDropdownOpen ? 'none' : 'block' }} />
+                            <KeyboardArrowUpIcon style={{ display: isDropdownOpen ? 'block' : 'none' }} />
+                        </IconDropdown>
+                    </PositionDropdown>
+                    <PositionsContainer $isDropdownOpen={isDropdownOpen && listedPositions?.length}>
+                        {listedPositions && listedPositions.map((value, index) => (
+                            <TextBox onClick={() => handleChangePosition(value, index)}
+                                key={index}>
+                                <TextField text={value} style={{ color: 'rgb(34, 40, 49)' }} />
+                            </TextBox>
+                        ))}
+                    </PositionsContainer>
 
-            <SectionTitle>
-                <TextField style={{
-                    color: 'black',
-                    fontSize: '2.7vw',
-                    fontWeight: 'bold',
-                    borderLeft: '10%'
-                }}
-                    text='RESULTADO'
-                />
-            </SectionTitle>
+                    <CandidatesResultsContainer>
+                        {
+                            candidates && candidates.map((candidate, index) => (
+                                <CandidateResult key={index}>
+                                    {
+                                        index === 0 && <TextField text='VENCEDOR'
+                                            style={{
+                                                color: 'black',
+                                                fontSize: '1.5vw',
+                                                fontWeight: 'bold'
+                                            }}
+                                        />
+                                    }
+                                    <CandidatePicture src={candidate[3]} />
+                                    <TextField
+                                        text={candidate[0]}
+                                        style={{
+                                            color: 'black',
+                                            fontWeight: 'bold'
+                                        }}
+                                    />
 
-            <ElectionResultTableContainer>
-                <ElectionResultTable>
-                    <TableHeaderComponents>
-                        <HeaderColumn>
-                            <TextField
-                                style={{ color: 'white' }}
-                                text='COLOCAÇÃO'
-                            />
-                        </HeaderColumn>
-                        <HeaderColumn>
-                            <TextField
-                                style={{ color: 'white' }}
-                                text='NOME'
-                            />
-                        </HeaderColumn>
-                        <HeaderColumn>
-                            <TextField
-                                style={{ color: 'white' }}
-                                text='NÚMERO'
-                            />
-                        </HeaderColumn>
-                        <HeaderColumn>
-                            <TextField
-                                style={{ color: 'white' }}
-                                text='QUANTIDADE TOTAL DE VOTOS'
-                            />
-                        </HeaderColumn>
-                    </TableHeaderComponents>
-                    {candidatesList.map((candidate, index) => (
-                        <CandidateRow key={index}>
-                            <CandidatePlacimentField>
-                                <TextField style={{ color: 'black', marginLeft: '30%' }}
-                                    text={`${index + 1}º`}
-                                />
-                            </CandidatePlacimentField>
-                            <CandidateNameField>
-                                <TextField style={{ color: 'black', marginLeft: '30%' }}
-                                    text={candidate.name}
-                                />
-                            </CandidateNameField>
-                            <CandidateNumberField>
-                                <TextField style={{ color: 'black' }}
-                                    text={`${candidate.number}`}
-                                />
-                            </CandidateNumberField>
-                            <CandidateVoteField>
-                                <TextField style={{ color: 'black' }}
-                                    text={`${candidate.vote}`}
-                                />
-                            </CandidateVoteField>
-                        </CandidateRow>
-                    ))}
-                </ElectionResultTable>
-            </ElectionResultTableContainer>
+                                    <TextField
+                                        text={candidate[1]}
+                                        style={{
+                                            color: 'black',
+                                            fontWeight: 'bold'
+                                        }}
+                                    />
+
+                                    <TextField
+                                        text={`Votos recebidos: ${candidate[2]}`}
+                                        style={{
+                                            color: 'black',
+                                            fontWeight: 'bold'
+                                        }}
+                                    />
+                                </CandidateResult>
+                            ))
+                        }
+                    </CandidatesResultsContainer>
+                </Results>
+            </ResultsDashboard>
         </ResultsPageContainer>
     );
 }

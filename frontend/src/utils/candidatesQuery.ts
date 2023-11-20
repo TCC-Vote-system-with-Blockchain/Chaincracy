@@ -13,13 +13,13 @@ const chaincracy = new web3.eth.Contract(ChaincracyAbi as AbiItem[], contractAdd
 export const getCandidate = async (numberToFind: number) => {
     try {
         const candidate = await chaincracy.methods.getInformacaoCandidato(numberToFind).call();
-        const [nomeCandidato, numero, votos] = candidate;
+        const [nomeCandidato, numero, votos, img] = candidate;
 
         return {
             name: nomeCandidato,
             number: Number(numero),
             vote: Number(votos),
-            picture: getPicture()
+            picture: img
         } as ICandidato
     }
     catch (err) {
@@ -30,8 +30,4 @@ export const getCandidate = async (numberToFind: number) => {
             vote: 0
         } as ICandidato
     }
-}
-
-export const getMostVotedCandidatesList = () => {
-    return {};
 }

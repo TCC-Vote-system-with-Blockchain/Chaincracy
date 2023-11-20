@@ -20,6 +20,7 @@ import {
 import { addNewCandidate, getPositions } from "../../utils/web3/services/chaincracy-service";
 import { IInsert } from "./models/addCandidato";
 import { IApiResponse } from "../../utils/web3/services/models/apiResponse";
+import { getPicture } from "../../utils/getPicture";
 import HowToRegOutlinedIcon from '@mui/icons-material/HowToRegOutlined';
 import PersonAddDisabledOutlinedIcon from '@mui/icons-material/PersonAddDisabledOutlined';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
@@ -66,7 +67,7 @@ export const AddCandidate: React.FC = () => {
     }
 
     const handleConfirm = async () => {
-        const inputStatus: IApiResponse = await addNewCandidate(Number(candidateInput.positionID), candidateInput.name, Number(candidateInput.number));
+        const inputStatus: IApiResponse = await addNewCandidate(Number(candidateInput.positionID), candidateInput.name, Number(candidateInput.number), getPicture());
         if (inputStatus.status) handleInsertConfirmed(false);
         else {
             setError(inputStatus.message);

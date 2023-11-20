@@ -73,13 +73,12 @@ export const ElectionStatusPage: React.FC = () => {
     }
 
     const handleConfirmEvent = () => {
-        debugger;
         setTimeout(() => {
             setConfirmEvent(false);
-        }, 3000)
+        }, 2000)
         setConfirmEvent(true);
         setTimeout(() => {
-        }, 2000)
+        }, 3000)
     }
 
     useEffect(() => {
