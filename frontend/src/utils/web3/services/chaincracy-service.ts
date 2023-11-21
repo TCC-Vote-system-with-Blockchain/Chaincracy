@@ -168,8 +168,6 @@ export const voteFlow = async (positionIndex: number) => {
             throw new Error('Lista finalizada!');
         }
 
-        console.log(positions[positionIndex]);
-
         return positions[positionIndex];
     }
     catch (err: any) {

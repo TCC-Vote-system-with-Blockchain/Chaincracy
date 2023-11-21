@@ -37,7 +37,7 @@ export const VotePage: React.FC = () => {
     }
 
     const getCandidateInputed = async (input: string) => {
-        let candidate: ICandidato = await getCandidate(Number(input));
+        let candidate: ICandidato = await getCandidate(Number(input), positionIndex);
         setCandidate(candidate);
     }
 
@@ -61,6 +61,7 @@ export const VotePage: React.FC = () => {
             if (!voteStatus.alreadyVoted) {
                 console.log(`Voto computado! Número do candidato: ${input}`);
                 setPositionIndex(positionIndex + 1);
+                setInput('');
                 handleVoteConfirmed(false);
             }
             else {
@@ -87,7 +88,7 @@ export const VotePage: React.FC = () => {
     useEffect(() => {
         getCandidateInputed(input);
         getVoteFlowInfos();
-    }, [input, setPositionIndex]);
+    }, [input, positionIndex]);
 
 
     return (

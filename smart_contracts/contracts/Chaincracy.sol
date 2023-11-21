@@ -122,12 +122,11 @@ contract Chaincracy {
         uint256 candidateNumber,
         uint256 _cargoId
     ) public view returns (Candidato memory) {
-        uint256[] memory candidatoIds = getCandidatosIdsDoCargo(_cargoId);
+        Candidato[] memory candidatosDoCargo = getCandidatosDoCargo(_cargoId);
 
-        for (uint256 i = 0; i < candidatoIds.length; i++) {
-            // candidatosNum[i] = candidatos[i].numero;
-            if(candidatos[i].numero == candidateNumber) {
-                return candidatos[i];
+        for (uint256 i = 0; i < candidatosDoCargo.length; i++) {
+            if(candidatosDoCargo[i].numero == candidateNumber) {
+                return candidatosDoCargo[i];
             }
         }
 
