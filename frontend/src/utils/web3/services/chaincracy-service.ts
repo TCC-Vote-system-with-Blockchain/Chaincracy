@@ -80,6 +80,16 @@ export const getPositions = async () => {
     return listedPositions;
 }
 
+export const checkFinalVote = async (actualPosition: number): Promise<boolean> => {
+    const totalPositions = await getPositions();
+
+    if (totalPositions.length === actualPosition) {
+        return true;
+    }
+
+    return false
+}
+
 export const getCandidatesFromPosition = async (positionID: number) => {
     const candidates = await chaincracy.methods.getCandidatosDoCargo(positionID).call();
 

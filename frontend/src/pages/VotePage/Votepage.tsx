@@ -20,7 +20,7 @@ import {
     InputFieldContainer,
     Input
 } from "./styles";
-import { vote, voteFlow } from "../../utils/web3/services/chaincracy-service";
+import { checkFinalVote, getPositions, vote, voteFlow } from "../../utils/web3/services/chaincracy-service";
 import { ICandidato, IVote } from "./models/candidato";
 import HowToRegOutlinedIcon from '@mui/icons-material/HowToRegOutlined';
 
@@ -32,8 +32,15 @@ export const VotePage: React.FC = () => {
     const [positionIndex, setPositionIndex] = useState(0);
     const [voteFlowInfo, setVoteFlowInfo] = useState();
 
+    const handleTotalPositions = async (): Promise<void> => {
+        const isFinalVote = await checkFinalVote(positionIndex);
+
+        if (isFinalVote) window.location.href = '/';
+    }
+
     const getVoteFlowInfos = async (): Promise<void> => {
         setVoteFlowInfo(await voteFlow(positionIndex));
+        handleTotalPositions();
     }
 
     const getCandidateInputed = async (input: string) => {
@@ -89,6 +96,10 @@ export const VotePage: React.FC = () => {
         getCandidateInputed(input);
         getVoteFlowInfos();
     }, [input, positionIndex]);
+
+    useEffect(() => {
+        handleTotalPositions();
+    }, []);
 
 
     return (
