@@ -11,9 +11,10 @@ import {
     InputFieldContainer,
     Input
 } from "./styles";
-import { addNewPosition } from "../../utils/web3/services/chaincracy-service";
+import { addNewCandidate, addNewPosition, getPositions } from "../../utils/web3/services/chaincracy-service";
 import { IInsert } from "./models/addCandidato";
 import { IApiResponse } from "../../utils/web3/services/models/apiResponse";
+import defaultpic from '../../../public/assets/Default_person.jpg'
 import HowToRegOutlinedIcon from '@mui/icons-material/HowToRegOutlined';
 import PersonAddDisabledOutlinedIcon from '@mui/icons-material/PersonAddDisabledOutlined';
 
@@ -37,6 +38,11 @@ export const AddPositionPage: React.FC = () => {
 
     const handleConfirm = async () => {
         const inputStatus: IApiResponse = await addNewPosition(positionInput);
+
+        const positionId = await getPositions();
+        await addNewCandidate((positionId.length - 1), 'Branco', 1, defaultpic);
+        await addNewCandidate((positionId.length - 1), 'Nulo', 2, defaultpic);
+
         if (inputStatus.status) handleInsertConfirmed(false);
         else {
             setError(inputStatus.message);

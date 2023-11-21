@@ -18,7 +18,18 @@ export const vote = async (candidateNumber: number, positionId: number) => {
             voted: true,
         }
     }
-    catch (err) {
+    catch (err: any) {
+        const errorMessage = err.message.match(/'([^']+)'/)[1];
+
+        if (errorMessage === 'Candidato nao encontrado') {
+            const account = await getCurrentAccount();
+            await chaincracy.methods.votar(2, positionId).send({ from: account });
+
+            return {
+                alreadyVoted: false,
+                voted: true,
+            }
+        }
         console.error('Carteira já usada na votação!');
         return {
             alreadyVoted: true,
@@ -60,6 +71,7 @@ export const addNewCandidate = async (positionId: number, name: string, number: 
         };
     }
     catch (err: any) {
+        console.error(err);
         const errorMessage = err.message.match(/'([^']+)'/)[1];
         console.error(errorMessage);
 
@@ -203,6 +215,18 @@ export const getMostVotedByPosition = async (positionID: number) => {
         const candidates = await chaincracy.methods.getListaDeCandidatoPorCargoPrimerioVencedor(positionID).call();
 
         return candidates;
+    }
+    catch (err: any) {
+        const errorMessage = err.message.match(/'([^']+)'/)[1];
+        console.error(errorMessage);
+    }
+}
+
+export const getPositionTotalVotes = async (positionID: number) => {
+    try {
+        const totalVotes = await chaincracy.methods.TotalVotosDoCargo(positionID).call();
+
+        return totalVotes;
     }
     catch (err: any) {
         const errorMessage = err.message.match(/'([^']+)'/)[1];

@@ -77,6 +77,9 @@ export const VotePage: React.FC = () => {
         }
         else {
             console.log('Voto em BRANCO computado!');
+            await vote(1, positionIndex);
+            setPositionIndex(positionIndex + 1);
+            setInput('');
             handleVoteConfirmed(false);
         }
         setIsPopupOpen({ isOpen: false, message: '' });

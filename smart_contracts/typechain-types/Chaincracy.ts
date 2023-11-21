@@ -47,6 +47,7 @@ export interface ChaincracyInterface extends Interface {
   getFunction(
     nameOrSignature:
       | "TotalVotos"
+      | "TotalVotosDoCargo"
       | "TotalVotosporCargo"
       | "adicionarCandidato"
       | "adicionarCargo"
@@ -76,6 +77,10 @@ export interface ChaincracyInterface extends Interface {
   encodeFunctionData(
     functionFragment: "TotalVotos",
     values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "TotalVotosDoCargo",
+    values: [BigNumberish]
   ): string;
   encodeFunctionData(
     functionFragment: "TotalVotosporCargo",
@@ -161,6 +166,10 @@ export interface ChaincracyInterface extends Interface {
   ): string;
 
   decodeFunctionResult(functionFragment: "TotalVotos", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "TotalVotosDoCargo",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(
     functionFragment: "TotalVotosporCargo",
     data: BytesLike
@@ -290,6 +299,12 @@ export interface Chaincracy extends BaseContract {
 
   TotalVotos: TypedContractMethod<[], [bigint], "view">;
 
+  TotalVotosDoCargo: TypedContractMethod<
+    [_cargoId: BigNumberish],
+    [bigint],
+    "view"
+  >;
+
   TotalVotosporCargo: TypedContractMethod<
     [_cargoId: BigNumberish],
     [bigint[]],
@@ -409,6 +424,9 @@ export interface Chaincracy extends BaseContract {
   getFunction(
     nameOrSignature: "TotalVotos"
   ): TypedContractMethod<[], [bigint], "view">;
+  getFunction(
+    nameOrSignature: "TotalVotosDoCargo"
+  ): TypedContractMethod<[_cargoId: BigNumberish], [bigint], "view">;
   getFunction(
     nameOrSignature: "TotalVotosporCargo"
   ): TypedContractMethod<[_cargoId: BigNumberish], [bigint[]], "view">;

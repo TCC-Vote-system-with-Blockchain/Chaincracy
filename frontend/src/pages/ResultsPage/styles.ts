@@ -15,7 +15,7 @@ export const ResultsDashboard = styled.div`
 
 export const TotalVoteContainer = styled.div`
     display: flex;
-    justify-content: center;
+    justify-content: space-around;
     align-items: center;
     margin-top: 20px;
     width: 100%;
@@ -24,13 +24,21 @@ export const TotalVoteContainer = styled.div`
 
 export const TotalVoteCard = styled.div`
     display: flex;
-    width: 90%;
+    flex-direction: column;
+    width: 30%;
     height: 100%;
     align-items: center;
     justify-content: space-around;
+    text-align: center;
     border-radius: 20px;
     box-shadow: 0px 0px 15px rgba(0, 0, 0, 1);
     background-color: white;
+    
+    & > span {
+        color: black;
+        font-weight: bold;
+        font-size: 1.6vw;
+    }
 `;
 
 export const Results = styled.div`
@@ -136,7 +144,6 @@ export const CandidatesResultsContainer = styled.div`
     margin-top: 30px;
 
     & > div:nth-child(1) {
-        /* background-color: #2badb3; */
         background-color: rgb(0, 173, 181, 1);
     }
 `;

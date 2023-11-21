@@ -225,6 +225,19 @@ contract Chaincracy {
         uint256[] memory candidatoIds = getCandidatosIdsDoCargo(_cargoId);
         return getVote(candidatoIds);
     }
+    
+    function TotalVotosDoCargo(
+        uint256 _cargoId
+    ) public view returns (uint256) {
+        uint256 totalVotos = 0;
+
+        Candidato[] memory candidatosList = getCandidatosDoCargo(_cargoId);
+
+        for (uint256 i = 0; i < candidatosList.length; i++) {
+            totalVotos = totalVotos + candidatosList[i].votos;
+        }
+        return totalVotos;
+    }
 
     function TotalVotos() public view returns (uint256) {
         uint256 totalVotos = 0;
