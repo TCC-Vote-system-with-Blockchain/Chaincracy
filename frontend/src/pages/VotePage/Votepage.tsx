@@ -20,7 +20,7 @@ import {
     InputFieldContainer,
     Input
 } from "./styles";
-import { vote } from "../../utils/web3/services/chaincracy-service";
+import { checkFinalVote, getPositions, vote, voteFlow } from "../../utils/web3/services/chaincracy-service";
 import { ICandidato, IVote } from "./models/candidato";
 import HowToRegOutlinedIcon from '@mui/icons-material/HowToRegOutlined';
 
@@ -29,9 +29,22 @@ export const VotePage: React.FC = () => {
     const [input, setInput] = useState('');
     const [voted, setVoted] = useState<IVote>({ alreadyVoted: false, voted: false });
     const [candidate, setCandidate] = useState<ICandidato>();
+    const [positionIndex, setPositionIndex] = useState(0);
+    const [voteFlowInfo, setVoteFlowInfo] = useState();
+
+    const handleTotalPositions = async (): Promise<void> => {
+        const isFinalVote = await checkFinalVote(positionIndex);
+
+        if (isFinalVote) window.location.href = '/';
+    }
+
+    const getVoteFlowInfos = async (): Promise<void> => {
+        setVoteFlowInfo(await voteFlow(positionIndex));
+        handleTotalPositions();
+    }
 
     const getCandidateInputed = async (input: string) => {
-        let candidate: ICandidato = await getCandidate(Number(input));
+        let candidate: ICandidato = await getCandidate(Number(input), positionIndex);
         setCandidate(candidate);
     }
 
@@ -50,10 +63,12 @@ export const VotePage: React.FC = () => {
 
     const handleConfirm = async () => {
         if (isPopupOpen.message === 'confirma') {
-            let voteStatus: IVote = await vote(Number(input), 0);
+            let voteStatus: IVote = await vote(Number(input), positionIndex);
 
             if (!voteStatus.alreadyVoted) {
                 console.log(`Voto computado! Número do candidato: ${input}`);
+                setPositionIndex(positionIndex + 1);
+                setInput('');
                 handleVoteConfirmed(false);
             }
             else {
@@ -72,13 +87,19 @@ export const VotePage: React.FC = () => {
             setVoted({ alreadyVoted: alreadyVoted, voted: false });
         }, 2000)
         setVoted({ alreadyVoted: alreadyVoted, voted: true });
+        getVoteFlowInfos();
         setTimeout(() => {
         }, 2000)
     }
 
     useEffect(() => {
         getCandidateInputed(input);
-    }, [input]);
+        getVoteFlowInfos();
+    }, [input, positionIndex]);
+
+    useEffect(() => {
+        handleTotalPositions();
+    }, []);
 
 
     return (
@@ -105,7 +126,7 @@ export const VotePage: React.FC = () => {
             />
 
             <Header login={false}
-                headerTitle={`Votação - <strong> DEPUTADO ESTADUAL </strong>`}
+                headerTitle={`Votação - <strong> ${voteFlowInfo ? voteFlowInfo : 'Sem Registro'} </strong>`}
                 headerTitleSize='2.5vw'
                 canBackwards={true}
             />

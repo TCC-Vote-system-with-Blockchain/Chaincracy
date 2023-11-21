@@ -105,16 +105,60 @@ contract Chaincracy {
 
     function getCandidatosDoCargo(
         uint256 _cargoId
-    ) public view returns (string[] memory) {
-        string[] memory candidatosRetorno = new string[](candidatos.length);
+    ) public view returns (Candidato[] memory) {
         uint256[] memory candidatoIds = getCandidatosIdsDoCargo(_cargoId);
+        Candidato[] memory candidatosRetorno = new Candidato[](candidatoIds.length);
 
         for (uint256 i = 0; i < candidatoIds.length; i++) {
-            candidatosRetorno[i] = candidatos[i].nomeCandidato;
+            uint256 candidatoId = candidatoIds[i];
+            candidatosRetorno[i] = candidatos[candidatoId];
         }
 
         return candidatosRetorno;
         // return cargoCandidatos[_cargoId];
+    }
+    
+    function getCandidatoDoCargo(
+        uint256 candidateNumber,
+        uint256 _cargoId
+    ) public view returns (Candidato memory) {
+        Candidato[] memory candidatosDoCargo = getCandidatosDoCargo(_cargoId);
+
+        for (uint256 i = 0; i < candidatosDoCargo.length; i++) {
+            if(candidatosDoCargo[i].numero == candidateNumber) {
+                return candidatosDoCargo[i];
+            }
+        }
+
+        revert('Candidato nao encontrado!');
+    }
+
+    function ordenarPorVotos(Candidato[] memory _candidatos) internal pure returns (Candidato[] memory) {
+        for (uint256 i = 0; i < _candidatos.length - 1; i++) {
+            for (uint256 j = 0; j < _candidatos.length - i - 1; j++) {
+                if (_candidatos[j].votos < _candidatos[j + 1].votos) {
+                    Candidato memory temp = _candidatos[j];
+                    _candidatos[j] = _candidatos[j + 1];
+                    _candidatos[j + 1] = temp;
+                }
+            }
+        }
+        return _candidatos;
+    }
+
+    function getListaDeCandidatoPorCargoPrimerioVencedor(uint256 _cargoId) public view returns (Candidato[] memory) {
+        uint256[] memory candidatoIds = getCandidatosIdsDoCargo(_cargoId);
+        Candidato[] memory candidatosRetorno = new Candidato[](candidatoIds.length);
+
+        for (uint256 i = 0; i < candidatoIds.length; i++) {
+         uint256 candidatoId = candidatoIds[i];
+            candidatosRetorno[i] = candidatos[candidatoId];
+        }
+
+        // Ordenar os candidatos com base no número de votos, do maior para o menor
+        candidatosRetorno = ordenarPorVotos(candidatosRetorno);
+
+        return candidatosRetorno;
     }
 
     function getNomeCandidato(
@@ -182,12 +226,25 @@ contract Chaincracy {
         return getVote(candidatoIds);
     }
 
+    function TotalVotos() public view returns (uint256) {
+        uint256 totalVotos = 0;
+        for (uint256 i = 0; i < candidatos.length; i++) {
+            totalVotos = totalVotos + candidatos[i].votos;
+        }
+
+        return totalVotos;
+    }
+
     function finalizarVotacao() public votacaoAberta onlyOwnerOf {
         statusVotacao = 'finished';
     }
     
     function comecarVotacao() public onlyOwnerOf {
         statusVotacao = 'in_progress';
+    }
+    
+    function prepararVotacao() public onlyOwnerOf {
+        statusVotacao = 'not_started';
     }
 
     function statusEleicao () public view returns (string memory) {

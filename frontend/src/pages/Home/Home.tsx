@@ -3,7 +3,7 @@ import { HomeContainer } from './styles';
 import { Menu } from '../../components/Menu';
 import { Dashboard } from '../../components/Dashboard/Dashboard';
 import { IStatus } from '../../components/Dashboard/model/models';
-import { getElectionStatus } from '../../utils/web3/services/chaincracy-service';
+import { getCandidateFromPosition, getElectionStatus } from '../../utils/web3/services/chaincracy-service';
 
 export const Home: React.FC = () => {
     const [electionStatus, setElectionStatus] = useState<IStatus>();

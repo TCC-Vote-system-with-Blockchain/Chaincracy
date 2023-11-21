@@ -18,6 +18,19 @@
         "type": "event"
     },
     {
+        "inputs": [],
+        "name": "TotalVotos",
+        "outputs": [
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
         "inputs": [
             {
                 "internalType": "uint256",
@@ -172,6 +185,52 @@
         "inputs": [
             {
                 "internalType": "uint256",
+                "name": "candidateNumber",
+                "type": "uint256"
+            },
+            {
+                "internalType": "uint256",
+                "name": "_cargoId",
+                "type": "uint256"
+            }
+        ],
+        "name": "getCandidatoDoCargo",
+        "outputs": [
+            {
+                "components": [
+                    {
+                        "internalType": "string",
+                        "name": "nomeCandidato",
+                        "type": "string"
+                    },
+                    {
+                        "internalType": "uint256",
+                        "name": "numero",
+                        "type": "uint256"
+                    },
+                    {
+                        "internalType": "uint256",
+                        "name": "votos",
+                        "type": "uint256"
+                    },
+                    {
+                        "internalType": "string",
+                        "name": "img",
+                        "type": "string"
+                    }
+                ],
+                "internalType": "struct Chaincracy.Candidato",
+                "name": "",
+                "type": "tuple"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "uint256",
                 "name": "_cargoId",
                 "type": "uint256"
             }
@@ -179,9 +238,31 @@
         "name": "getCandidatosDoCargo",
         "outputs": [
             {
-                "internalType": "string[]",
+                "components": [
+                    {
+                        "internalType": "string",
+                        "name": "nomeCandidato",
+                        "type": "string"
+                    },
+                    {
+                        "internalType": "uint256",
+                        "name": "numero",
+                        "type": "uint256"
+                    },
+                    {
+                        "internalType": "uint256",
+                        "name": "votos",
+                        "type": "uint256"
+                    },
+                    {
+                        "internalType": "string",
+                        "name": "img",
+                        "type": "string"
+                    }
+                ],
+                "internalType": "struct Chaincracy.Candidato[]",
                 "name": "",
-                "type": "string[]"
+                "type": "tuple[]"
             }
         ],
         "stateMutability": "view",
@@ -242,6 +323,47 @@
                 "internalType": "struct Chaincracy.Candidato",
                 "name": "",
                 "type": "tuple"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "uint256",
+                "name": "_cargoId",
+                "type": "uint256"
+            }
+        ],
+        "name": "getListaDeCandidatoPorCargoPrimerioVencedor",
+        "outputs": [
+            {
+                "components": [
+                    {
+                        "internalType": "string",
+                        "name": "nomeCandidato",
+                        "type": "string"
+                    },
+                    {
+                        "internalType": "uint256",
+                        "name": "numero",
+                        "type": "uint256"
+                    },
+                    {
+                        "internalType": "uint256",
+                        "name": "votos",
+                        "type": "uint256"
+                    },
+                    {
+                        "internalType": "string",
+                        "name": "img",
+                        "type": "string"
+                    }
+                ],
+                "internalType": "struct Chaincracy.Candidato[]",
+                "name": "",
+                "type": "tuple[]"
             }
         ],
         "stateMutability": "view",
@@ -328,6 +450,13 @@
             }
         ],
         "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "prepararVotacao",
+        "outputs": [],
+        "stateMutability": "nonpayable",
         "type": "function"
     },
     {
