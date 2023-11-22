@@ -20,6 +20,7 @@ import PersonAddDisabledOutlinedIcon from '@mui/icons-material/PersonAddDisabled
 
 export const AddPositionPage: React.FC = () => {
     const [isPopupOpen, setIsPopupOpen] = useState<boolean>(false);
+    const [numberLength, setNumberLength] = useState('');
     const [positionInput, setPositionInput] = useState('');
     const [error, setError] = useState('');
     const [voted, setVoted] = useState<IInsert>({ alreadyInserted: false, insert: false });
@@ -31,13 +32,20 @@ export const AddPositionPage: React.FC = () => {
         else setPositionInput('');
     }
 
+    const handleOnChangeNumberLength = (value: any) => {
+        if (value.length) {
+            setNumberLength(value);
+        }
+        else setNumberLength('');
+    }
+
     const handleOnClosePopup = () => {
         setIsPopupOpen(false);
         console.log(`Inserção cancelada.`);
     }
 
     const handleConfirm = async () => {
-        const inputStatus: IApiResponse = await addNewPosition(positionInput);
+        const inputStatus: IApiResponse = await addNewPosition(positionInput, numberLength);
 
         const positionId = await getPositions();
         await addNewCandidate((positionId.length - 1), 'Branco', 1, defaultpic);
@@ -101,12 +109,21 @@ export const AddPositionPage: React.FC = () => {
                     />
                 </InputFieldContainer>
 
+                <TextField text='Número de dígitos para candidatos deste cargo:' style={{ fontSize: '2vw', marginTop: '20px' }} />
+                <InputFieldContainer>
+                    <Input
+                        maxLength={60}
+                        minLength={2}
+                        onChange={({ target }: any) => handleOnChangeNumberLength(target.value)}
+                    />
+                </InputFieldContainer>
+
                 <ButtonsBox>
                     <Button
                         text='CONFIRMA'
                         disable={positionInput.length < 3}
-                        buttonStyles={{ width: '36%', height: '68%', backgroundColor: positionInput.length > 3 ? '#27B410' : '#26b41075' }}
-                        fontStyles={{ fontSize: '1.3vw', fontWeight: 'bolder', color: positionInput.length > 3 ? '#FFFF' : '#ffffff94' }}
+                        buttonStyles={{ width: '36%', height: '68%', backgroundColor: positionInput.length > 3 && numberLength ? '#27B410' : '#26b41075' }}
+                        fontStyles={{ fontSize: '1.3vw', fontWeight: 'bolder', color: positionInput.length > 3 && numberLength ? '#FFFF' : '#ffffff94' }}
                         onClick={() => setIsPopupOpen(true)}
                     />
                 </ButtonsBox>

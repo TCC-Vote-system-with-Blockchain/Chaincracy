@@ -20,17 +20,24 @@ import {
     InputFieldContainer,
     Input
 } from "./styles";
-import { checkFinalVote, getPositions, vote, voteFlow } from "../../utils/web3/services/chaincracy-service";
+import { checkFinalVote, getMaxNumberLengthPosition, getPositions, vote, voteFlow } from "../../utils/web3/services/chaincracy-service";
 import { ICandidato, IVote } from "./models/candidato";
 import HowToRegOutlinedIcon from '@mui/icons-material/HowToRegOutlined';
 
 export const VotePage: React.FC = () => {
     const [isPopupOpen, setIsPopupOpen] = useState({ isOpen: false, message: '' });
     const [input, setInput] = useState('');
+    const [selectedPositionNumberLength, setSelectedPositionNumberLength] = useState<number>();
     const [voted, setVoted] = useState<IVote>({ alreadyVoted: false, voted: false });
     const [candidate, setCandidate] = useState<ICandidato>();
     const [positionIndex, setPositionIndex] = useState(0);
-    const [voteFlowInfo, setVoteFlowInfo] = useState();
+    const [voteFlowInfo, setVoteFlowInfo] = useState<string>();
+
+    const getSelectedPositionNumberLength = async () => {
+        const numberLength = await getMaxNumberLengthPosition(voteFlowInfo!);
+        console.log(numberLength);
+        setSelectedPositionNumberLength(numberLength);
+    }
 
     const handleTotalPositions = async (): Promise<void> => {
         const isFinalVote = await checkFinalVote(positionIndex);
@@ -49,7 +56,8 @@ export const VotePage: React.FC = () => {
     }
 
     const handleOnChange = (value: any) => {
-        if (value.length === 2) {
+        if (value.length == selectedPositionNumberLength) {
+            console.log(value);
             setInput(value);
             getCandidateInputed(value);
         }
@@ -104,6 +112,10 @@ export const VotePage: React.FC = () => {
         handleTotalPositions();
     }, []);
 
+    useEffect(() => {
+        getSelectedPositionNumberLength();
+    }, [handleTotalPositions]);
+
 
     return (
         <VotePageContainer>
@@ -138,16 +150,16 @@ export const VotePage: React.FC = () => {
                 <VoteFieldContainer>
                     <TextField text='Digite o número do candidato:' style={{ fontSize: '2.3vw' }} />
                     <InputFieldContainer>
-                        <Input maxLength={2}
+                        <Input maxLength={selectedPositionNumberLength}
                             onChange={({ target }: any) => handleOnChange(target.value)}
                         />
                     </InputFieldContainer>
 
                     <ButtonsBox>
                         <Button text='CONFIRMA'
-                            disable={input.length !== 2}
-                            buttonStyles={{ width: '36%', height: '68%', backgroundColor: input.length === 2 ? '#27B410' : '#26b41075' }}
-                            fontStyles={{ fontSize: '1.3vw', fontWeight: 'bolder', color: input.length === 2 ? '#FFFF' : '#ffffff94' }}
+                            disable={input.length != selectedPositionNumberLength}
+                            buttonStyles={{ width: '36%', height: '68%', backgroundColor: input.length == selectedPositionNumberLength ? '#27B410' : '#26b41075' }}
+                            fontStyles={{ fontSize: '1.3vw', fontWeight: 'bolder', color: input.length == selectedPositionNumberLength ? '#FFFF' : '#ffffff94' }}
                             onClick={() => setIsPopupOpen({ isOpen: true, message: 'confirma' })}
                         />
                         <Button text='BRANCO'

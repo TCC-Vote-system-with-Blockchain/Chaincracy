@@ -38,10 +38,11 @@ export const vote = async (candidateNumber: number, positionId: number) => {
     }
 }
 
-export const addNewPosition = async (name: string): Promise<IApiResponse> => {
+export const addNewPosition = async (name: string, numberLength: string): Promise<IApiResponse> => {
     try {
         const account = await getCurrentAccount();
-        await chaincracy.methods.adicionarCargo(name).send({ from: account });
+        console.log(Number(numberLength));
+        await chaincracy.methods.adicionarCargo(name, Number(numberLength)).send({ from: account });
 
         return {
             status: true,
@@ -49,6 +50,7 @@ export const addNewPosition = async (name: string): Promise<IApiResponse> => {
         };
     }
     catch (err: any) {
+        console.error(err);
         const errorMessage = err.message.match(/'([^']+)'/)[1];
         console.error(errorMessage);
 
@@ -227,6 +229,18 @@ export const getPositionTotalVotes = async (positionID: number) => {
         const totalVotes = await chaincracy.methods.TotalVotosDoCargo(positionID).call();
 
         return totalVotes;
+    }
+    catch (err: any) {
+        const errorMessage = err.message.match(/'([^']+)'/)[1];
+        console.error(errorMessage);
+    }
+}
+
+export const getMaxNumberLengthPosition = async (positionName: string) => {
+    try {
+        const maxNumberLength = await chaincracy.methods.cargoNumeroMaximo(positionName).call();
+        console.log(maxNumberLength);
+        return maxNumberLength;
     }
     catch (err: any) {
         const errorMessage = err.message.match(/'([^']+)'/)[1];

@@ -1,3 +1,5 @@
+declare var window: any;
+
 export const connectWallet = async (): Promise<void> => {
     try {
         await window.ethereum.request({
