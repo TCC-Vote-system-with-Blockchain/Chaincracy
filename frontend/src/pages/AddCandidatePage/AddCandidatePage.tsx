@@ -17,7 +17,7 @@ import {
     PositionText,
     IconDropdown
 } from "./styles";
-import { addNewCandidate, getPositions } from "../../utils/web3/services/chaincracy-service";
+import { addNewCandidate, getMaxNumberLengthPosition, getPositions } from "../../utils/web3/services/chaincracy-service";
 import { IInsert } from "./models/addCandidato";
 import { IApiResponse } from "../../utils/web3/services/models/apiResponse";
 import { getPicture } from "../../utils/getPicture";
@@ -30,14 +30,19 @@ export const AddCandidate: React.FC = () => {
     const [isPopupOpen, setIsPopupOpen] = useState({ isOpen: false, message: '' });
     const [listedPositions, setListedPositions] = useState<string[]>();
     const [selectedPosition, setSelectedPosition] = useState<string>('Selecione:');
+    const [selectedPositionNumberLength, setSelectedPositionNumberLength] = useState<number>();
     const [candidateInput, setCandidateInput] = useState({ positionID: '', name: '', number: '' });
     const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(false);
     const [error, setError] = useState<string>('');
     const [voted, setVoted] = useState<IInsert>({ alreadyInserted: false, insert: false });
 
+    const getSelectedPositionNumberLength = async () => {
+        const numberLength = await getMaxNumberLengthPosition(selectedPosition);
+        setSelectedPositionNumberLength(numberLength);
+    }
+
     const getListedPositions = async () => {
         let positions = await getPositions();
-
         setListedPositions(positions);
     }
 
@@ -55,10 +60,9 @@ export const AddCandidate: React.FC = () => {
     }
 
     const handleOnChangeCandidateNumber = (value: any) => {
-        if (value.length >= 2) {
+        if (value.length <= selectedPositionNumberLength!) {
             setCandidateInput({ ...candidateInput, number: value });
         }
-        else setCandidateInput({ ...candidateInput, number: '' });
     }
 
     const handleOnClosePopup = () => {
@@ -88,6 +92,10 @@ export const AddCandidate: React.FC = () => {
     useEffect(() => {
         getListedPositions();
     }, [])
+
+    useEffect(() => {
+        getSelectedPositionNumberLength();
+    }, [selectedPosition])
 
     return (
         <AddCandidateContainer>
@@ -153,15 +161,16 @@ export const AddCandidate: React.FC = () => {
                     <InputFieldContainer>
                         <Input maxLength={10}
                             onChange={({ target }: any) => handleOnChangeCandidateNumber(target.value)}
+                            value={candidateInput.number}
                         />
                     </InputFieldContainer>
 
                     <ButtonsBox>
                         <Button
                             text='CONFIRMA'
-                            disable={candidateInput.name && candidateInput.number && candidateInput.positionID ? false : true}
-                            buttonStyles={{ width: '36%', height: '68%', backgroundColor: candidateInput.name && candidateInput.number && candidateInput.positionID ? '#27B410' : '#26b41075' }}
-                            fontStyles={{ fontSize: '1.3vw', fontWeight: 'bolder', color: candidateInput.name && candidateInput.number && candidateInput.positionID ? '#FFFF' : '#ffffff94' }}
+                            disable={candidateInput.name && candidateInput.number && candidateInput.positionID && candidateInput.number.length == selectedPositionNumberLength ? false : true}
+                            buttonStyles={{ width: '36%', height: '68%', backgroundColor: candidateInput.name && candidateInput.number && candidateInput.positionID && candidateInput.number.length == selectedPositionNumberLength ? '#27B410' : '#26b41075' }}
+                            fontStyles={{ fontSize: '1.3vw', fontWeight: 'bolder', color: candidateInput.name && candidateInput.number && candidateInput.positionID && candidateInput.number.length == selectedPositionNumberLength ? '#FFFF' : '#ffffff94' }}
                             onClick={() => setIsPopupOpen({ isOpen: true, message: 'confirm-candidate' })}
                         />
                     </ButtonsBox>

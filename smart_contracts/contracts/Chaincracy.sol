@@ -14,6 +14,7 @@ contract Chaincracy {
 
     struct Cargo {
         string nomeCargo;
+        uint256 maxNumTam;
     }
 
     Cargo[] public cargos;
@@ -45,7 +46,8 @@ contract Chaincracy {
     }
 
     function adicionarCargo(
-        string memory _nomeCargo
+        string memory _nomeCargo,
+        uint256 _maxNumTam
     ) public onlyOwnerOf {
         for (uint256 i = 0; i < cargos.length; i++) {
             require(
@@ -56,11 +58,22 @@ contract Chaincracy {
 
         Cargo memory novoCargo;
         novoCargo.nomeCargo = _nomeCargo;
+        novoCargo.maxNumTam = _maxNumTam;
         cargos.push(novoCargo);
     }
 
     function listarCargos() public view returns (Cargo[] memory) {
         return cargos;
+    }
+
+    function cargoNumeroMaximo(string memory _nomeCargo) public view returns (uint256){
+        for (uint256 i = 0; i < cargos.length; i++) {
+            if(keccak256(abi.encodePacked(cargos[i].nomeCargo)) == keccak256(abi.encodePacked(_nomeCargo))) {
+                return cargos[i].maxNumTam;
+            }
+        }
+
+        revert("Cargo inexistente");
     }
 
     function adicionarCandidato(
@@ -224,6 +237,19 @@ contract Chaincracy {
     ) public view returns (uint256[] memory) {
         uint256[] memory candidatoIds = getCandidatosIdsDoCargo(_cargoId);
         return getVote(candidatoIds);
+    }
+    
+    function TotalVotosDoCargo(
+        uint256 _cargoId
+    ) public view returns (uint256) {
+        uint256 totalVotos = 0;
+
+        Candidato[] memory candidatosList = getCandidatosDoCargo(_cargoId);
+
+        for (uint256 i = 0; i < candidatosList.length; i++) {
+            totalVotos = totalVotos + candidatosList[i].votos;
+        }
+        return totalVotos;
     }
 
     function TotalVotos() public view returns (uint256) {

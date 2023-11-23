@@ -38,6 +38,25 @@
                 "type": "uint256"
             }
         ],
+        "name": "TotalVotosDoCargo",
+        "outputs": [
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "uint256",
+                "name": "_cargoId",
+                "type": "uint256"
+            }
+        ],
         "name": "TotalVotosporCargo",
         "outputs": [
             {
@@ -83,6 +102,11 @@
                 "internalType": "string",
                 "name": "_nomeCargo",
                 "type": "string"
+            },
+            {
+                "internalType": "uint256",
+                "name": "_maxNumTam",
+                "type": "uint256"
             }
         ],
         "name": "adicionarCargo",
@@ -151,6 +175,25 @@
     {
         "inputs": [
             {
+                "internalType": "string",
+                "name": "_nomeCargo",
+                "type": "string"
+            }
+        ],
+        "name": "cargoNumeroMaximo",
+        "outputs": [
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
                 "internalType": "uint256",
                 "name": "",
                 "type": "uint256"
@@ -162,6 +205,11 @@
                 "internalType": "string",
                 "name": "nomeCargo",
                 "type": "string"
+            },
+            {
+                "internalType": "uint256",
+                "name": "maxNumTam",
+                "type": "uint256"
             }
         ],
         "stateMutability": "view",
@@ -429,6 +477,11 @@
                         "internalType": "string",
                         "name": "nomeCargo",
                         "type": "string"
+                    },
+                    {
+                        "internalType": "uint256",
+                        "name": "maxNumTam",
+                        "type": "uint256"
                     }
                 ],
                 "internalType": "struct Chaincracy.Cargo[]",
