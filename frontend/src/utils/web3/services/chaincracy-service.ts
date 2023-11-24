@@ -4,7 +4,8 @@ import Web3 from "web3";
 import { getCurrentAccount } from "./web3-service";
 import { IApiResponse } from "./models/apiResponse";
 
-const web3 = new Web3('http://127.0.0.1:8545');
+// const web3 = new Web3('http://127.0.0.1:8545');
+const web3 = new Web3('https://polygon-mumbai.g.alchemy.com/v2/3GU2hX9Th_zx2B9qNKEka-MAOiRvn-oo');
 const contractAddress = ChaincracyAddress;
 const chaincracy = new web3.eth.Contract(ChaincracyAbi as AbiItem[], contractAddress);
 
@@ -161,10 +162,12 @@ export const isMainWallet = async (): Promise<boolean> => {
     try {
         const account = await getCurrentAccount();
         await chaincracy.methods.isOwner().send({ from: account });
+        // await chaincracy.methods.isOwner()
 
         return true;
     }
     catch (err: any) {
+        console.log(err);
         const errorMessage = err.message.match(/'([^']+)'/)[1];
         console.error(errorMessage);
 

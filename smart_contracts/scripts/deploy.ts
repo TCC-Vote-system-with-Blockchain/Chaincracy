@@ -1,12 +1,11 @@
 import { ethers } from "hardhat";
 
 async function main() {
-  const chaincracy = await ethers.deployContract("Chaincracy");
-
-  await chaincracy.waitForDeployment();
+  const Chaincracy = await ethers.getContractFactory("Chaincracy");
+  const chaincracy = await Chaincracy.deploy();
 
   console.log(
-    `deployed chaincracy`
+    `Deployed Chaincracy to ${chaincracy.address}`
   );
 }
 
