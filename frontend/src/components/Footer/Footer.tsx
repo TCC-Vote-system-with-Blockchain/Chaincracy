@@ -4,7 +4,7 @@ import { FooterContainer } from "./styles";
 export const Footer: React.FC = () => {
     const getTextWithCurrentYear = (): string => {
         var currentTime = new Date();
-        return `All rights reserved. Copyright © ${currentTime.getFullYear()} Filmaro Company.`;
+        return `MIT License | ${currentTime.getFullYear()} Chaincracy.`;
     }
 
     return (
